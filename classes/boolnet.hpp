@@ -1,19 +1,26 @@
-#include "utils.hpp"
+#include <vector>
 
 class node{
     private:
         bool state;
-        arr<node> neigh;
-        arr<int> TT;
+        std::vector<node> neigh;
+        std::vector<int> TT;
     public:
-        node(arr<int> inTT);
+        node(std::vector<int> inTT);
 
-        void updateNeigh(arr<node> inN);
+        void updateNeigh(std::vector<node> inN);
 };
 
 class network{
     private:
-        arr<node> nodes;
+        std::vector<node> nodes;
     public:
         network();
+};
+
+class basicNetwork{
+    private:
+        std::vector<std::vector<int>> TT;
+    public:
+        basicNetwork();
 };
