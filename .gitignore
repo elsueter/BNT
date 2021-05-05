@@ -1,5 +1,5 @@
 /.vscode
 /main
 src/network.cpp
-src/main.cpp
+src/terminal/
 ignore/
