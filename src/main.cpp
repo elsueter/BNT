@@ -9,6 +9,7 @@ int main(){
     basicNetwork netA(BTT);
     printVector(netA.getTT());
     printVector(netA.gettraces());
+    printVector(netA.getUniqueTraces());
     printVector(netA.getattractors());
 
     return 0;

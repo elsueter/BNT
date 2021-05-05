@@ -23,6 +23,11 @@ std::vector<std::vector<int>> ATT = {{0, 0}, {1, 0},
                                      {1, 0}, {1, 1},
                                      {1, 1}, {0, 1}};
 
+int ATT2[8][2] = {{0, 0}, {1, 0},
+                  {0, 1}, {0, 0},
+                  {1, 0}, {1, 1},
+                  {1, 1}, {0, 1}};
+
 /*  Graph B (from document)
     Nodes: {A, B, C}
     Rules: {A = C & !B}, {B = C}, {C = A}

@@ -27,6 +27,19 @@ bool vecPermContains(std::vector<std::vector<T>> vec, std::vector<T> check){
     return false;
 }
 
+template<typename T>
+bool vecConatainsSeq(std::vector<T> vec, std::vector<T> check){
+    if(check.size()>vec.size()){
+        return false;  
+    }
+    for(int i = 0; i < check.size(); i++){
+        if(vec[vec.size()-i-1] != check[check.size()-i-1]){
+            return false;
+        }
+    }
+    return true;
+}
+
 // basicNetwork ------------------------------------------------------------------------------
 
 basicNetwork::basicNetwork(std::vector<std::vector<int>> inTT){
@@ -73,6 +86,24 @@ void basicNetwork::iterate(){
             attractors.push_back(tempAtt[i]);
         }
     }
+    for(int i = 0; i < traces.size(); i++){
+        traces[i].pop_back();
+        if(!vecPermContains(uniqueTraces, traces[i])){
+            uniqueTraces.push_back(traces[i]);
+        }
+    }
+    bool change = true;
+    while(change){
+        change = false;
+        for(int i = 0; i < uniqueTraces.size(); i++){
+            for(int j = 0; j < uniqueTraces.size(); j++){
+                if(vecConatainsSeq(uniqueTraces[i], uniqueTraces[j]) && i != j){
+                    uniqueTraces.erase(uniqueTraces.begin()+j);
+                    change = true;
+                }                
+            }
+        }
+    }
 }
 
 std::vector<std::vector<int>> basicNetwork::getTT(){
@@ -83,4 +114,7 @@ std::vector<std::vector<std::vector<int>>> basicNetwork::getattractors(){
 }
 std::vector<std::vector<std::vector<int>>> basicNetwork::gettraces(){
     return traces;
+}
+std::vector<std::vector<std::vector<int>>> basicNetwork::getUniqueTraces(){
+    return uniqueTraces;
 }
