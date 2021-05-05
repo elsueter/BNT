@@ -33,7 +33,7 @@ struct netState{
 };
 
 struct NodeTT{
-    
+
 };
 
 class booleanNode{
@@ -42,6 +42,5 @@ class booleanNode{
 class booleanNetwork{
 };
 #include "../src/models/booleanNetwork.cpp"
-
 
 #endif
