@@ -1,5 +1,5 @@
 // netTable ------------------------------------------------------------------------------
-
+/*
 netState& netTable::operator[](int index){
     return table[index];
 }
@@ -18,4 +18,4 @@ syncNetwork::syncNetwork(std::vector<std::vector<int>> inTT){
     for(int i = 0; i < TT.size()/2; i++){
         nodes.push_back(TT[i*2]);        
     }
-}
+}*/

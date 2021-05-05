@@ -24,7 +24,7 @@ class basicNetwork{
 #include "../src/models/basicNetwork.cpp"
 
 // syncNetwork ------------------------------------------------------------------------------
-
+/*
 struct netState{
     std::vector<int> state;
 };
@@ -49,5 +49,5 @@ class syncNetwork{
         syncNetwork(std::vector<std::vector<int>> inTT);
 };
 #include "../src/models/syncNetwork.cpp"
-
+*/
 #endif
