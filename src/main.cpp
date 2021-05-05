@@ -1,16 +1,12 @@
 #include "../include/boolnet.hpp"
 
 //Temperary includes
-#include "../terminal/output.hpp"
+#include "terminal/output.hpp"
 #include "network.cpp"
 
 int main(){
 
     basicNetwork netA(BTT);
-    printVector(netA.getTT());
-    printVector(netA.gettraces());
-    printVector(netA.getUniqueTraces());
-    printVector(netA.getattractors());
 
     return 0;
 }
