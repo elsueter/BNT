@@ -27,14 +27,16 @@ class basicNetwork{
 
 // booleanNetwork ----------------------------------------------------------------------------
 
-struct netState{
-    bool *vals;
-    int noNodes;
-};
 
-struct NodeTT{
-
-};
+struct netTT{
+    struct netTTrow{
+        struct netState{
+            bool *vals;
+            int noNodes;
+        };
+        netState t, t1;
+    };
+}
 
 class booleanNode{
 };
