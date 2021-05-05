@@ -1,9 +1,9 @@
 #ifndef _boolnet_H_
 #define _boolnet_H_
 
-#include <vector>
-
 // basicNetwork ------------------------------------------------------------------------------
+
+#include <vector>
 
 //Basic & messy implementation
 class basicNetwork{
@@ -12,6 +12,7 @@ class basicNetwork{
         std::vector<std::vector<int>> TT;
         std::vector<std::vector<std::vector<int>>> attractors;
         std::vector<std::vector<std::vector<int>>> traces;
+        std::vector<std::vector<std::vector<int>>> uniqueTraces;
 
         void iterate();
     public:
@@ -20,34 +21,27 @@ class basicNetwork{
         std::vector<std::vector<int>> getTT();
         std::vector<std::vector<std::vector<int>>> getattractors();
         std::vector<std::vector<std::vector<int>>> gettraces();
+        std::vector<std::vector<std::vector<int>>> getUniqueTraces();
 };
 #include "../src/models/basicNetwork.cpp"
 
-// syncNetwork ------------------------------------------------------------------------------
-/*
+// booleanNetwork ----------------------------------------------------------------------------
+
 struct netState{
-    std::vector<int> state;
+    bool *vals;
+    int noNodes;
 };
 
-struct netTable{
-    std::vector<std::vector<netState>> table;
-    netTable& operator=(const std::vector<std::vector<int>> in);
-    netState& operator[](int index);
+struct NodeTT{
+    
 };
 
-class syncNetwork{
-    private:
-
-        std::vector<netState> nodes;
-        netTable TT;
-        netTable attractors;
-        netTable traces;
-
-        void iterate();
-
-    public:
-        syncNetwork(std::vector<std::vector<int>> inTT);
+class booleanNode{
 };
-#include "../src/models/syncNetwork.cpp"
-*/
+
+class booleanNetwork{
+};
+#include "../src/models/booleanNetwork.cpp"
+
+
 #endif
