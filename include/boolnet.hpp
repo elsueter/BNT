@@ -14,7 +14,6 @@ class basicNetwork{
         std::vector<std::vector<std::vector<int>>> traces;
 
         void iterate();
-        void condense();
     public:
         basicNetwork(std::vector<std::vector<int>> inTT);
 
@@ -22,29 +21,33 @@ class basicNetwork{
         std::vector<std::vector<std::vector<int>>> getattractors();
         std::vector<std::vector<std::vector<int>>> gettraces();
 };
-#include "basicNetwork.cpp"
+#include "../src/models/basicNetwork.cpp"
 
 // syncNetwork ------------------------------------------------------------------------------
+
+struct netState{
+    std::vector<int> state;
+};
+
+struct netTable{
+    std::vector<std::vector<netState>> table;
+    netTable& operator=(const std::vector<std::vector<int>> in);
+    netState& operator[](int index);
+};
 
 class syncNetwork{
     private:
 
-        struct netState{
-            std::vector<std::vector<int>> state;
-        };
-
-        struct netTable{
-            std::vector<netState> table;
-        };
-
-        netState nodes;
+        std::vector<netState> nodes;
         netTable TT;
         netTable attractors;
         netTable traces;
 
-    public:
+        void iterate();
 
+    public:
         syncNetwork(std::vector<std::vector<int>> inTT);
 };
+#include "../src/models/syncNetwork.cpp"
 
 #endif
