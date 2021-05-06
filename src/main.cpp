@@ -6,7 +6,11 @@
 
 int main(){
 
-    basicNetwork netA(BTT);
+    basicNetwork net(CTT);
+    printVector(net.getTT());
+    printVector(net.gettraces());
+    printVector(net.getUniqueTraces());
+    printVector(net.getattractors());
 
     return 0;
 }
