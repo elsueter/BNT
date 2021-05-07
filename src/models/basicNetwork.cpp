@@ -11,7 +11,7 @@ int vecContains(std::vector<T> vec, T check){
 }
 
 template<typename T>
-bool vecPermContains(std::vector<std::vector<T>> vec, std::vector<T> check){
+bool vecPermContains(std::vector<std::vector<T> > vec, std::vector<T> check){
     for(int i = 0; i < check.size(); i++){
         if(vecContains(vec, check)>-1){
             return true;
@@ -42,7 +42,7 @@ bool vecConatainsSeq(std::vector<T> vec, std::vector<T> check){
 
 // basicNetwork ------------------------------------------------------------------------------
 
-basicNetwork::basicNetwork(std::vector<std::vector<int>> inTT){
+basicNetwork::basicNetwork(std::vector<std::vector<int> > inTT){
     TT = inTT;
     for(int i = 0; i < TT.size()/2; i++){
         nodes.push_back(TT[i*2]);        
@@ -50,11 +50,11 @@ basicNetwork::basicNetwork(std::vector<std::vector<int>> inTT){
 }
 
 void basicNetwork::iterate(){
-    std::vector<std::vector<std::vector<int>>> tempAtt;
+    std::vector<std::vector<std::vector<int> > > tempAtt;
     for(int k = 0; k < nodes.size(); k++){
-        traces.push_back(std::vector<std::vector<int>>());
+        traces.push_back(std::vector<std::vector<int> >());
         traces[k].push_back(nodes[k]);
-        std::vector<std::vector<int>> pStates;
+        std::vector<std::vector<int> > pStates;
         pStates.push_back(nodes[k]);
         bool attractorHit = false;
         while(!attractorHit){
@@ -64,7 +64,7 @@ void basicNetwork::iterate(){
                     traces[k].push_back(nodes[k]);
                     int index = vecContains(pStates, nodes[k]);
                     if(index > -1){
-                        std::vector<std::vector<int>> temp;
+                        std::vector<std::vector<int> > temp;
                         for(int j = index; j < pStates.size(); j++){
                             temp.push_back(pStates[j]);
                         }
@@ -105,15 +105,15 @@ void basicNetwork::iterate(){
     }
 }
 
-std::vector<std::vector<int>> basicNetwork::getTT(){
+std::vector<std::vector<int> > basicNetwork::getTT(){
     return TT;
 }
-std::vector<std::vector<std::vector<int>>> basicNetwork::getattractors(){
+std::vector<std::vector<std::vector<int> > > basicNetwork::getattractors(){
     return attractors;
 }
-std::vector<std::vector<std::vector<int>>> basicNetwork::gettraces(){
+std::vector<std::vector<std::vector<int> > > basicNetwork::gettraces(){
     return traces;
 }
-std::vector<std::vector<std::vector<int>>> basicNetwork::getUniqueTraces(){
+std::vector<std::vector<std::vector<int> > > basicNetwork::getUniqueTraces(){
     return uniqueTraces;
 }

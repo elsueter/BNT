@@ -18,10 +18,10 @@ class basicNetwork{
         basicNetwork(std::vector<std::vector<int>> inTT);
         void iterate();
 
-        std::vector<std::vector<int>> getTT();
-        std::vector<std::vector<std::vector<int>>> getattractors();
-        std::vector<std::vector<std::vector<int>>> gettraces();
-        std::vector<std::vector<std::vector<int>>> getUniqueTraces();
+        std::vector<std::vector<int> > getTT();
+        std::vector<std::vector<std::vector<int> > > getattractors();
+        std::vector<std::vector<std::vector<int> > > gettraces();
+        std::vector<std::vector<std::vector<int> > > getUniqueTraces();
 };
 #include "../src/models/basicNetwork.cpp"
 
