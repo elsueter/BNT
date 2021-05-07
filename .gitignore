@@ -1,5 +1,3 @@
 /.vscode
 /main
-src/network.cpp
-src/terminal/
 ignore/

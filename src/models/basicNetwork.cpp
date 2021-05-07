@@ -47,7 +47,6 @@ basicNetwork::basicNetwork(std::vector<std::vector<int>> inTT){
     for(int i = 0; i < TT.size()/2; i++){
         nodes.push_back(TT[i*2]);        
     }
-    iterate();
 }
 
 void basicNetwork::iterate(){

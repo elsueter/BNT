@@ -1,9 +1,10 @@
 #ifndef _boolnet_H_
 #define _boolnet_H_
 
-// basicNetwork ------------------------------------------------------------------------------
-
 #include <vector>
+#include <thread>
+
+// basicNetwork ------------------------------------------------------------------------------
 
 //Basic & messy implementation
 class basicNetwork{
@@ -13,10 +14,9 @@ class basicNetwork{
         std::vector<std::vector<std::vector<int>>> attractors;
         std::vector<std::vector<std::vector<int>>> traces;
         std::vector<std::vector<std::vector<int>>> uniqueTraces;
-
-        void iterate();
     public:
         basicNetwork(std::vector<std::vector<int>> inTT);
+        void iterate();
 
         std::vector<std::vector<int>> getTT();
         std::vector<std::vector<std::vector<int>>> getattractors();
@@ -27,21 +27,44 @@ class basicNetwork{
 
 // booleanNetwork ----------------------------------------------------------------------------
 
-
-struct netTT{
-    struct netTTrow{
-        struct netState{
-            bool *vals;
-            int noNodes;
-        };
-        netState t, t1;
-    };
-}
-
-class booleanNode{
+struct state{
+    bool *vals;
+    int len;
+    bool &operator [](int index);
 };
 
+struct statePair{
+    state t0;
+    state t1;
+};
+
+struct stateTable{
+    statePair *table;
+    int len;
+    statePair &operator [](int index);
+};
+
+struct sequence{
+    state *states;
+    int len;
+    state &operator [](int index);
+}; 
+                                                                                              
 class booleanNetwork{
+    private:
+        stateTable TT;
+        sequence attractors;
+        sequence traces;
+        sequence uniqueTraces;
+
+        void genTrace(state in);
+    public:
+        booleanNetwork(std::vector<std::vector<int>> inTT);
+        booleanNetwork(stateTable inTT);
+
+        void genTraces();
+
+        stateTable getTT();
 };
 #include "../src/models/booleanNetwork.cpp"
 
