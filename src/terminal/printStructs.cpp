@@ -23,6 +23,20 @@ void printStateTable(stateTable in){
     std::cout<<std::endl;
 }
 
+void printSequence(sequence in){
+    for(int i = 0; i < in.len; i++){
+        printState(in[i]);
+    }
+}
+
+void printSequenceArr(sequenceArr in){
+    std::cout<<"Sequence Array:"<<std::endl;
+    for(int i = 0; i < in.len; i++){
+        printSequence(in[i]);
+    }
+    std::cout<<std::endl;
+}
+
 template<typename T>
 void printVector(std::vector<std::vector<std::vector<T>>> in){
     for(int i = 0; i < in.size(); i++){

@@ -16,6 +16,9 @@ void printState(state in);
 void printStatePair(statePair in);
 void printStateTable(stateTable in);
 
+void printSequence(sequence in);
+void printSequenceArr(sequenceArr in);
+
 template<typename T>
 void printVector(std::vector<T> in);
 template<typename T>

@@ -30,7 +30,9 @@ class basicNetwork{
 struct state{
     bool *vals;
     int len;
+
     bool &operator [](int index);
+    bool operator ==(state in);
 };
 
 struct statePair{
@@ -41,30 +43,46 @@ struct statePair{
 struct stateTable{
     statePair *table;
     int len;
+
     statePair &operator [](int index);
 };
 
 struct sequence{
     state *states;
     int len;
+
+    ~sequence();
+
+    bool contains(state in);
+    void push_back(state in);
+
     state &operator [](int index);
-}; 
+};
+
+struct sequenceArr{
+    sequence *sequences;
+    int len;
+
+    sequence &operator [](int index);
+};
                                                                                               
 class booleanNetwork{
     private:
         stateTable TT;
-        sequence attractors;
-        sequence traces;
-        sequence uniqueTraces;
+        sequenceArr attractors;
+        sequenceArr traces;
+        sequenceArr uniqueTraces;
 
-        void genTrace(state in);
+        void genTrace(sequence &trace);
     public:
         booleanNetwork(std::vector<std::vector<int>> inTT);
         booleanNetwork(stateTable inTT);
+        ~booleanNetwork();
 
         void genTraces();
 
         stateTable getTT();
+        sequenceArr getTraces();
 };
 #include "../src/models/booleanNetwork.cpp"
 
