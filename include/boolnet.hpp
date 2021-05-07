@@ -9,13 +9,13 @@
 //Basic & messy implementation
 class basicNetwork{
     private:
-        std::vector<std::vector<int>> nodes;
-        std::vector<std::vector<int>> TT;
-        std::vector<std::vector<std::vector<int>>> attractors;
-        std::vector<std::vector<std::vector<int>>> traces;
-        std::vector<std::vector<std::vector<int>>> uniqueTraces;
+        std::vector<std::vector<int> > nodes;
+        std::vector<std::vector<int> > TT;
+        std::vector<std::vector<std::vector<int> > > attractors;
+        std::vector<std::vector<std::vector<int> > > traces;
+        std::vector<std::vector<std::vector<int> > > uniqueTraces;
     public:
-        basicNetwork(std::vector<std::vector<int>> inTT);
+        basicNetwork(std::vector<std::vector<int> > inTT);
         void iterate();
 
         std::vector<std::vector<int> > getTT();
@@ -35,47 +35,35 @@ struct state{
     bool operator ==(state in);
 };
 
-struct statePair{
-    state t0;
-    state t1;
-};
-
 struct stateTable{
+
+    struct statePair{
+        state t0;
+        state t1;
+    };
+    
     statePair *table;
     int len;
-
+    
     statePair &operator [](int index);
 };
 
 struct sequence{
-    state *states;
-    int len;
-
-    ~sequence();
-
-    bool contains(state in);
-    void push_back(state in);
+    std::vector<state> states;
 
     state &operator [](int index);
-};
-
-struct sequenceArr{
-    sequence *sequences;
-    int len;
-
-    sequence &operator [](int index);
 };
                                                                                               
 class booleanNetwork{
     private:
         stateTable TT;
-        sequenceArr attractors;
-        sequenceArr traces;
-        sequenceArr uniqueTraces;
+        std::vector<sequence> attractors;
+        std::vector<sequence> traces;
+        std::vector<sequence> uniqueTraces;
 
         void genTrace(sequence &trace);
     public:
-        booleanNetwork(std::vector<std::vector<int>> inTT);
+        booleanNetwork(std::vector<std::vector<int> > inTT);
         booleanNetwork(stateTable inTT);
         ~booleanNetwork();
 
