@@ -13,7 +13,7 @@ struct timer{
 #include "utilityFuncs.cpp"
 
 void printState(state in);
-void printStatePair(statePair in);
+void printStatePair(stateTable::statePair in);
 void printStateTable(stateTable in);
 
 void printSequence(sequence in);

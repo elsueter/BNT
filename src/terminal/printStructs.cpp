@@ -9,7 +9,7 @@ void printState(state in){
     std::cout<<"} ";
 }
 
-void printStatePair(statePair in){
+void printStatePair(stateTable::statePair in){
     printState(in.t0);
     printState(in.t1);
     std::cout<<std::endl;
