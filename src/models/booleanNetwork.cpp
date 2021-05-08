@@ -60,7 +60,7 @@ booleanNetwork::~booleanNetwork(){
 // Network Functions
 
 void booleanNetwork::genTraces(){
-    
+
 }
 
 void booleanNetwork::genTrace(sequence &trace){
