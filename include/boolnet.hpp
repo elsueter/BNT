@@ -54,7 +54,7 @@ struct sequence{
 
     state &operator [](int index);
 };
-                                                                                              
+
 class booleanNetwork{
     private:
         stateTable TT;
