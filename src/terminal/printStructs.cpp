@@ -24,8 +24,16 @@ void printStateTable(stateTable in){
 }
 
 void printSequence(sequence in){
-    for(int i = 0; i < in.states.size(); i++){
+    for(int i = 0; i < in.len; i++){
         printState(in[i]);
+    }
+}
+
+void printSequenceTable(sequenceTable in){
+    std::cout<<"Sequence Table: "<<std::endl;
+    for(int i = 0; i < in.len; i++){
+        printSequence(in[i]);
+        std::cout<<std::endl;
     }
 }
 

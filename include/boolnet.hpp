@@ -33,10 +33,10 @@ struct state{
 
     bool &operator [](int index);
     bool operator ==(state in);
+    void operator =(state in);
 };
 
 struct stateTable{
-
     struct statePair{
         state t0;
         state t1;
@@ -53,22 +53,30 @@ struct sequence{
     int len;
 
     state &operator [](int index);
+    void operator =(sequence in);
+};
+
+struct sequenceTable{
+    sequence *table;
+    int len;
+
+    sequence &operator [](int index);
 };
 
 class booleanNetwork{
     private:
         stateTable TT;
-        std::vector<sequence> traces;
+        sequenceTable traces;
 
-        void genTrace(sequence &trace);
+        void genTrace(sequence *trace);
     public:
         booleanNetwork(std::vector<std::vector<int> > inTT);
-        booleanNetwork(stateTable inTT);
         ~booleanNetwork();
 
         void genTraces();
 
         stateTable getTT();
+        sequenceTable getTraces();
 };
 #include "../src/models/booleanNetwork.cpp"
 
