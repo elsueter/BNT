@@ -59,9 +59,8 @@ booleanNetwork::~booleanNetwork(){
 
 // Network Functions
 
-#include "../terminal/utils.hpp"
-
 void booleanNetwork::genTraces(){
+    
 }
 
 void booleanNetwork::genTrace(sequence &trace){
