@@ -24,17 +24,9 @@ void printStateTable(stateTable in){
 }
 
 void printSequence(sequence in){
-    for(int i = 0; i < in.len; i++){
+    for(int i = 0; i < in.states.size(); i++){
         printState(in[i]);
     }
-}
-
-void printSequenceArr(sequenceArr in){
-    std::cout<<"Sequence Array:"<<std::endl;
-    for(int i = 0; i < in.len; i++){
-        printSequence(in[i]);
-    }
-    std::cout<<std::endl;
 }
 
 template<typename T>

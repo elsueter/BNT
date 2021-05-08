@@ -49,7 +49,8 @@ struct stateTable{
 };
 
 struct sequence{
-    std::vector<state> states;
+    state *states;
+    int len;
 
     state &operator [](int index);
 };
@@ -57,9 +58,7 @@ struct sequence{
 class booleanNetwork{
     private:
         stateTable TT;
-        std::vector<sequence> attractors;
         std::vector<sequence> traces;
-        std::vector<sequence> uniqueTraces;
 
         void genTrace(sequence &trace);
     public:
@@ -70,7 +69,6 @@ class booleanNetwork{
         void genTraces();
 
         stateTable getTT();
-        sequenceArr getTraces();
 };
 #include "../src/models/booleanNetwork.cpp"
 

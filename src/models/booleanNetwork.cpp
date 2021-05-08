@@ -62,15 +62,6 @@ booleanNetwork::~booleanNetwork(){
 #include "../terminal/utils.hpp"
 
 void booleanNetwork::genTraces(){
-    //std::thread threads[TT.len];
-    for(int i = 0; i < TT.len; i++){
-        //threads[i] = std::thread(&booleanNetwork::genTrace, this, std::ref(traces[i]));
-    }
-    
-    //for(int i = 0; i < TT.len; i++){
-        //threads[i].join();
-        //threads[i].~thread();
-    //}
 }
 
 void booleanNetwork::genTrace(sequence &trace){
@@ -81,8 +72,4 @@ void booleanNetwork::genTrace(sequence &trace){
 
 stateTable booleanNetwork::getTT(){
     return TT;
-}
-
-sequenceArr booleanNetwork::getTraces(){
-    return traces;
 }

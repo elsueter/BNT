@@ -14,7 +14,6 @@ int main(){
     booleanNetwork net1(BTT);
     net1.genTraces();
     printStateTable(net1.getTT());
-    //printSequenceArr(net1.getTraces());
 
     return 0;
 }
