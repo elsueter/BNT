@@ -18,6 +18,7 @@ bool state::operator == (state in){
 
 void state::operator =(state in){
     len = in.len;
+    delete [] vals;
     vals = new bool[len];
     for(int i = 0; i < len; i++){
         vals[i] = in[i];
@@ -38,6 +39,7 @@ sequence &sequenceTable::operator [](int index){
 
 void sequence::operator =(sequence in){
     len = in.len;
+    delete [] states;
     states = new state[len];
     for(int i = 0; i < len; i++){
         states[i] = in[i];
@@ -48,6 +50,8 @@ void sequence::operator =(sequence in){
 
 // Constructors / Deconstructor
 
+#include <iostream>
+
 booleanNetwork::booleanNetwork(std::vector<std::vector<int> > inTT){
 
     int len = inTT.size()/2;
@@ -55,13 +59,13 @@ booleanNetwork::booleanNetwork(std::vector<std::vector<int> > inTT){
 
     TT = {new stateTable::statePair[len], len};
 
-    traces = {new sequence[TT.len], TT.len};
+    traces = {new sequence[len], len};
 
-    for(int i = 0; i < TT.len; i++){
+    for(int i = 0; i < len; i++){
 
         TT[i].t0 = {new bool[len1], len1};
         TT[i].t1 = {new bool[len1], len1};
-        for(int j = 0; j < TT.len; j++){
+        for(int j = 0; j < len1; j++){
             TT[i].t0[j] = inTT[i*2][j];
             TT[i].t1[j] = inTT[(i*2)+1][j];
         }
@@ -90,17 +94,9 @@ booleanNetwork::~booleanNetwork(){
 // Network Functions
 
 void booleanNetwork::genTraces(){
-    for(int i = 0; i < traces.len; i++){
-        genTrace(&traces[i]);
-    }
 }
 
-void booleanNetwork::genTrace(sequence *trace){
-    for(int i = 0; i < TT.len; i++){
-        if(TT[i].t0 == trace->states[trace->len-1]){
-            trace->states[0] = TT[i].t1;
-        }
-    }
+void booleanNetwork::genTrace(sequence &trace){
 }
 
 // variable exposure functions

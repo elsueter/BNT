@@ -8,12 +8,9 @@ int main(){
     timer clock;
 
     basicNetwork net(BTT);
-    net.iterate();
     printVector(net.getTT());
 
-
     booleanNetwork net1(BTT);
-    net1.genTraces();
     printStateTable(net1.getTT());
     printSequenceTable(net1.getTraces());
 

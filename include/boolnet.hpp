@@ -68,7 +68,7 @@ class booleanNetwork{
         stateTable TT;
         sequenceTable traces;
 
-        void genTrace(sequence *trace);
+        void genTrace(sequence &trace);
     public:
         booleanNetwork(std::vector<std::vector<int> > inTT);
         ~booleanNetwork();
