@@ -52,8 +52,9 @@ struct sequence{
     state *states;
     int len;
 
+    bool contains(state in);
+
     state &operator [](int index);
-    void operator =(sequence in);
 };
 
 struct sequenceTable{

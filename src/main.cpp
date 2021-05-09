@@ -7,12 +7,17 @@
 int main(){
     timer clock;
 
+    clock.start();
     basicNetwork net(BTT);
-    printVector(net.getTT());
+    clock.stop();
+    //printVector(net.getTT());
 
+    clock.start();
     booleanNetwork net1(BTT);
-    printStateTable(net1.getTT());
-    printSequenceTable(net1.getTraces());
+    clock.stop();
+    net1.genTraces();
+    //printStateTable(net1.getTT());
+    //printSequenceTable(net1.getTraces());
 
     return 0;
 }
