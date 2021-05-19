@@ -1,5 +1,3 @@
-#include "../../include/booleanNetwork.h"
-
 // Utility funcs -----------------------------------------------------------------------
 
 int sequenceContains(sequence trace, state in) {
