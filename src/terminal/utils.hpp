@@ -12,12 +12,12 @@ struct timer{
 };
 #include "utilityFuncs.cpp"
 
-void printState(state in);
+/*void printState(state in);
 void printStatePair(stateTable::statePair in);
 void printStateTable(stateTable in);
 
 void printSequence(sequence in);
-void printSequenceTable(sequenceTable in);
+void printSequenceTable(sequenceTable in);*/
 
 template<typename T>
 void printVector(std::vector<T> in);

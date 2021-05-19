@@ -1,119 +1,158 @@
-// Utils ------------------------------------------------------------------------------------
+#include "../../include/booleanNetwork.h"
 
-template<typename T>
-int vecContains(std::vector<T> vec, T check){
-    for(int i = 0; i < vec.size(); i++){
-        if(vec[i] == check){
-            return i;
-        }
-    }
-    return -1;
-}
+// Utility funcs -----------------------------------------------------------------------
 
-template<typename T>
-bool vecPermContains(std::vector<std::vector<T> > vec, std::vector<T> check){
-    for(int i = 0; i < check.size(); i++){
-        if(vecContains(vec, check)>-1){
-            return true;
-        }
-        if(check.size()>1){
-            T temp = check[0];
-            for(int j = 1; j < check.size(); j++){
-                check[j-1] = check[j];
-            }
-            check[check.size()-1] = temp;
-        }
-    }
-    return false;
+int sequenceContains(sequence trace, state in) {
+	for (int i = 0; i < trace.size(); i++) {
+		if (trace[i] == in) {
+			return i;
+		}
+	}
+	return -1;
 }
 
-template<typename T>
-bool vecConatainsSeq(std::vector<T> vec, std::vector<T> check){
-    if(check.size()>vec.size()){
-        return false;  
-    }
-    for(int i = 0; i < check.size(); i++){
-        if(vec[vec.size()-i-1] != check[check.size()-i-1]){
-            return false;
-        }
-    }
-    return true;
+bool sequenceEqualsPerm(sequence& in1, sequence& in2) {
+	for (auto& it : in1) {
+		if (in1 == in2) {
+			return true;
+		}
+
+		/*state temp = it.back();
+		for (int i = it.size() - 1; i > 0; i--) {
+			it[i] = it[i - 1];
+		}
+		it[0] = temp;
+
+		Algorithm implementation of above*/
+		std::rotate(in1.begin(), in1.begin() + 1, in1.end());
+	}
+	return false;
 }
 
-// basicNetwork ------------------------------------------------------------------------------
-
-basicNetwork::basicNetwork(std::vector<std::vector<int> > inTT){
-    TT = inTT;
-    for(int i = 0; i < TT.size()/2; i++){
-        nodes.push_back(TT[i*2]);        
-    }
+bool sequenceArrContains(std::vector<sequence>& arr, sequence& in) {
+	for (auto& it : arr) {
+		return sequenceEqualsPerm(it, in);
+	}
+	return false;
 }
 
-void basicNetwork::iterate(){
-    std::vector<std::vector<std::vector<int> > > tempAtt;
-    for(int k = 0; k < nodes.size(); k++){
-        traces.push_back(std::vector<std::vector<int> >());
-        traces[k].push_back(nodes[k]);
-        std::vector<std::vector<int> > pStates;
-        pStates.push_back(nodes[k]);
-        bool attractorHit = false;
-        while(!attractorHit){
-            for(int i = 0; i < TT.size()/2; i++){
-                if(nodes[k] == TT[(i*2)] && !attractorHit){
-                    nodes[k] = TT[(i*2)+1];
-                    traces[k].push_back(nodes[k]);
-                    int index = vecContains(pStates, nodes[k]);
-                    if(index > -1){
-                        std::vector<std::vector<int> > temp;
-                        for(int j = index; j < pStates.size(); j++){
-                            temp.push_back(pStates[j]);
-                        }
-                        tempAtt.push_back(temp);
-                        attractorHit = true;
-                        break;
-                    }else{
-                        pStates.push_back(nodes[k]);
-                    }
-                    break;
-                }
-            }
-        }
-        attractorHit = false;
-    }
-    for(int i = 0; i < tempAtt.size(); i++){
-        if(!vecPermContains(attractors, tempAtt[i])){
-            attractors.push_back(tempAtt[i]);
-        }
-    }
-    for(int i = 0; i < traces.size(); i++){
-        traces[i].pop_back();
-        if(!vecPermContains(uniqueTraces, traces[i])){
-            uniqueTraces.push_back(traces[i]);
-        }
-    }
-    bool change = true;
-    while(change){
-        change = false;
-        for(int i = 0; i < uniqueTraces.size(); i++){
-            for(int j = 0; j < uniqueTraces.size(); j++){
-                if(vecConatainsSeq(uniqueTraces[i], uniqueTraces[j]) && i != j){
-                    uniqueTraces.erase(uniqueTraces.begin()+j);
-                    change = true;
-                }                
-            }
-        }
-    }
+bool sequenceArrContainsSubsequence(std::vector<sequence>& arr, sequence& in) {
+	for (auto& it : arr) {
+		if (in.size() <= it.size()) {
+			int dif = it.size() - in.size();
+			sequence temp(it.begin() + dif, it.end());
+			if (sequenceEqualsPerm(temp, in)) {
+				return true;
+			}
+		}
+		else{
+			int dif = in.size() - it.size();
+			sequence temp(in.begin() + dif, in.end());
+			if (sequenceEqualsPerm(temp, it)) {
+				it = in;
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
-std::vector<std::vector<int> > basicNetwork::getTT(){
-    return TT;
+// Constructor/Destructor(s) -----------------------------------------------------------
+
+booleanNetwork::booleanNetwork(std::vector<state> inTT) {
+	int len = inTT.size() / 2;
+
+	netTT.reserve(len);
+	traces.reserve(len);
+
+	for (int i = 0; i < len; i++) {
+		netTT.push_back({ inTT[i * 2], inTT[(i * 2) + 1] });
+		traces.push_back({ inTT[i * 2] });
+	}
 }
-std::vector<std::vector<std::vector<int> > > basicNetwork::getattractors(){
-    return attractors;
+
+// Private Methods -----------------------------------------------------------------------
+
+void booleanNetwork::genTrace(sequence& trace) {
+
+	trace.reserve(netTT.size());
+	attractors.reserve(netTT.size());
+	uniqueTraces.reserve(netTT.size());
+
+	bool attractorHit = false;
+	while (!attractorHit) {
+		for (auto& it : netTT) {
+			if (it.t0 == trace.back()) {
+				int index = sequenceContains(trace, it.t1);
+
+				if (index > -1) {
+					sequence temp(trace.begin() + index, trace.end());
+
+					if (!sequenceArrContains(attractors, temp)) {
+						mtx.lock();
+						attractors.push_back(temp);
+						mtx.unlock();
+					}
+
+					if (!sequenceArrContainsSubsequence(uniqueTraces, trace)) {
+						mtx.lock();
+						uniqueTraces.push_back(trace);
+						mtx.unlock();
+					}
+
+					attractorHit = true;
+				}
+				else {
+					trace.push_back(it.t1);
+				}
+
+				break;
+			}
+		}
+	}
+
+	attractors.shrink_to_fit();
 }
-std::vector<std::vector<std::vector<int> > > basicNetwork::gettraces(){
-    return traces;
+
+// Public Methods ------------------------------------------------------------------------
+
+void booleanNetwork::genTraces() {
+	for (auto& it : traces) {
+		genTrace(it);
+	}
 }
-std::vector<std::vector<std::vector<int> > > basicNetwork::getUniqueTraces(){
-    return uniqueTraces;
+
+void booleanNetwork::genTracesThreaded() {
+	std::vector<std::thread> threads;
+	for (auto& it : traces) {
+		threads.push_back(std::thread(&booleanNetwork::genTrace, this, std::ref(it)));
+	}
+
+	for (auto& it : threads) {
+		it.join();
+	}
+}
+
+// Getter/Setter Methods -----------------------------------------------------------------
+
+std::vector<statePair> booleanNetwork::getTT() {
+	return netTT;
+}
+
+std::vector<sequence> booleanNetwork::getTraces() {
+	return traces;
+}
+
+std::vector<sequence> booleanNetwork::getAttractors() {
+	return attractors;
+}
+
+std::vector<sequence> booleanNetwork::getUniqueTraces() {
+	return uniqueTraces;
+}
+
+void booleanNetwork::del() {
+	traces.clear();
+	attractors.clear();
+	uniqueTraces.clear();
 }

@@ -1,4 +1,4 @@
-#include "../include/boolnet.hpp"
+#include "../include/booleanNetwork.h"
 
 //Temperary includes
 #include "terminal/utils.hpp"
@@ -8,16 +8,16 @@ int main(){
     timer clock;
 
     clock.start();
-    basicNetwork net(BTT);
-    clock.stop();
-    //printVector(net.getTT());
-
-    clock.start();
     booleanNetwork net1(BTT);
-    clock.stop();
+    clock.restart();
     net1.genTraces();
-    //printStateTable(net1.getTT());
-    //printSequenceTable(net1.getTraces());
+    clock.stop();
+
+    printVector(net1.getTraces());
+    std::cout<<std::endl;
+    printVector(net1.getAttractors());
+    std::cout<<std::endl;
+    printVector(net1.getUniqueTraces());
 
     return 0;
 }

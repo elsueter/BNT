@@ -1,15 +1,15 @@
 void printState(state in){
     std::cout<<"{";
-    for(int i = 0; i < in.len; i++){
+    for(int i = 0; i < in.size(); i++){
         std::cout<<in[i];
-        if(i < in.len-1){
+        if(i < in.size()-1){
             std::cout<<", ";
         }
     }
     std::cout<<"} ";
 }
 
-void printStatePair(stateTable::statePair in){
+/*void printStatePair(stateTable::statePair in){
     printState(in.t0);
     printState(in.t1);
     std::cout<<std::endl;
@@ -35,7 +35,7 @@ void printSequenceTable(sequenceTable in){
         printSequence(in[i]);
         std::cout<<std::endl;
     }
-}
+}*/
 
 template<typename T>
 void printVector(std::vector<std::vector<std::vector<T>>> in){

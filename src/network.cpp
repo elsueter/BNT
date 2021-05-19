@@ -18,7 +18,7 @@
                           {0, 0, 1, 1}}
 */
 
-std::vector<std::vector<int> > ATT = {{0, 0}, {1, 0},
+std::vector<std::vector<bool> > ATT = {{0, 0}, {1, 0},
                                      {0, 1}, {0, 0},
                                      {1, 0}, {1, 1},
                                      {1, 1}, {0, 1}};
@@ -55,7 +55,7 @@ std::vector<std::vector<int> > ATT = {{0, 0}, {1, 0},
                           {0, 0, 1, 1}}
 */
 
-std::vector<std::vector<int> > BTT = {{0, 0, 0}, {0, 0, 0},
+std::vector<std::vector<bool> > BTT = {{0, 0, 0}, {0, 0, 0},
                                      {0, 0, 1}, {1, 1, 0},
                                      {0, 1, 0}, {0, 0, 0},
                                      {0, 1, 1}, {0, 1, 0},
@@ -65,7 +65,7 @@ std::vector<std::vector<int> > BTT = {{0, 0, 0}, {0, 0, 0},
                                      {1, 1, 1}, {0, 1, 1}};
 
                                      
-std::vector<std::vector<int>> CTT = {{0, 0, 0}, {0, 1, 1},
+std::vector<std::vector<bool>> CTT = {{0, 0, 0}, {0, 1, 1},
                                      {0, 0, 1}, {0, 0, 1},
                                      {0, 1, 0}, {0, 1, 1},
                                      {0, 1, 1}, {1, 0, 1},
