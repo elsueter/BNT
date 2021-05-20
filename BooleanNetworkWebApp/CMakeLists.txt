@@ -11,6 +11,10 @@ add_library(boolean_Network STATIC include/BooleanNetworkEmulator/src/basicNetwo
 # add the executable
 add_executable(WebApp main.cpp)
 
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+target_link_libraries(WebApp PRIVATE Threads::Threads)
+
 target_link_libraries(WebApp PUBLIC boolean_Network)
 
 target_include_directories(WebApp PUBLIC include/BooleanNetworkEmulator/include)
