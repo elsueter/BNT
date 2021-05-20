@@ -13,7 +13,7 @@
 
 namespace BooleanNetwork{
 
-typedef std::vector<bool> state;
+typedef std::vector<int> state;
 typedef std::vector<state> sequence;
 
 struct statePair {
@@ -45,7 +45,7 @@ public:
 
 	void del();
 
-	std::vector<statePair> getTT();
+	std::vector<sequence> getTT();
 	std::vector<sequence> getTraces();
 	std::vector<sequence> getAttractors();
 	std::vector<sequence> getUniqueTraces();

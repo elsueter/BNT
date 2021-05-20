@@ -3,7 +3,33 @@
 #define CROW_MAIN
 #include "include/crow_all.h"
 
+std::vector<std::vector<int> > ATT = {{0, 0}, {1, 0},
+                                     {0, 1}, {0, 0},
+                                     {1, 0}, {1, 1},
+                                     {1, 1}, {0, 1}};
+
+std::vector<std::vector<int> > BTT = {{0, 0, 0}, {0, 0, 0},
+                                     {0, 0, 1}, {1, 1, 0},
+                                     {0, 1, 0}, {0, 0, 0},
+                                     {0, 1, 1}, {0, 1, 0},
+                                     {1, 0, 0}, {0, 0, 1},
+                                     {1, 0, 1}, {1, 1, 1},
+                                     {1, 1, 0}, {0, 0, 1},
+                                     {1, 1, 1}, {0, 1, 1}};
+
+                                     
+std::vector<std::vector<int>> CTT = {{0, 0, 0}, {0, 1, 1},
+                                     {0, 0, 1}, {0, 0, 1},
+                                     {0, 1, 0}, {0, 1, 1},
+                                     {0, 1, 1}, {1, 0, 1},
+                                     {1, 0, 0}, {0, 1, 0},
+                                     {1, 0, 1}, {0, 0, 0},
+                                     {1, 1, 0}, {0, 1, 0},
+                                     {1, 1, 1}, {1, 0, 0}};
+
 int main(){
+    BooleanNetwork::basicNetwork net(CTT);
+    net.genTraces();
     crow::SimpleApp app;
 
     crow::mustache::set_base(".");
@@ -15,9 +41,12 @@ int main(){
     });
 
     CROW_ROUTE(app, "/json")
-    ([]{
+    ([&net]{
         crow::json::wvalue x;
-        x["message"] = "Hello, World!";
+        x["truthTable"] = net.getTT();
+        x["traces"] = net.getTraces();
+        x["attractors"] = net.getAttractors();
+        x["uniqueTraces"] = net.getUniqueTraces();
         return x;
     });
 

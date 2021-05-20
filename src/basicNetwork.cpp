@@ -133,8 +133,15 @@ void basicNetwork::genTracesThreaded() {
 
 // Getter/Setter Methods -----------------------------------------------------------------
 
-std::vector<statePair> basicNetwork::getTT() {
-	return netTT;
+std::vector<sequence> basicNetwork::getTT() {
+	std::vector<sequence> out;
+	for(auto& it:netTT){
+		sequence temp;
+		temp.push_back(it.t0);
+		temp.push_back(it.t1);
+		out.push_back(temp);
+	}
+	return out;
 }
 
 std::vector<sequence> basicNetwork::getTraces() {
