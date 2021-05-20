@@ -11,10 +11,10 @@ add_library(boolean_Network STATIC include/BooleanNetworkEmulator/src/basicNetwo
 # add the executable
 add_executable(WebApp main.cpp)
 
-target_link_libraries(cMake_executable PUBLIC boolean_Network)
+target_link_libraries(WebApp PUBLIC boolean_Network)
 
-target_include_directories(cMake_executable PUBLIC include/BooleanNetworkEmulator/include)
+target_include_directories(WebApp PUBLIC include/BooleanNetworkEmulator/include)
 
-target_include_directories(cMake_executable PUBLIC include)
+target_include_directories(WebApp PUBLIC include)
 
-target_include_directories(cMake_executable PUBLIC include/boost_1_76_0)
+target_include_directories(WebApp PUBLIC include/boost_1_76_0)

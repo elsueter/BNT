@@ -130,17 +130,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named cMake_executable
+# Target rules for targets named WebApp
 
 # Build rule for target.
-cMake_executable: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cMake_executable
-.PHONY : cMake_executable
+WebApp: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 WebApp
+.PHONY : WebApp
 
 # fast build rule for target.
-cMake_executable/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cMake_executable.dir/build.make CMakeFiles/cMake_executable.dir/build
-.PHONY : cMake_executable/fast
+WebApp/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/WebApp.dir/build.make CMakeFiles/WebApp.dir/build
+.PHONY : WebApp/fast
 
 #=============================================================================
 # Target rules for targets named boolean_Network
@@ -188,7 +188,7 @@ main.o: main.cpp.o
 
 # target to build an object file
 main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cMake_executable.dir/build.make CMakeFiles/cMake_executable.dir/main.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/WebApp.dir/build.make CMakeFiles/WebApp.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -197,7 +197,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cMake_executable.dir/build.make CMakeFiles/cMake_executable.dir/main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/WebApp.dir/build.make CMakeFiles/WebApp.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -206,7 +206,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cMake_executable.dir/build.make CMakeFiles/cMake_executable.dir/main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/WebApp.dir/build.make CMakeFiles/WebApp.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 # Help Target
@@ -217,8 +217,8 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... WebApp"
 	@echo "... boolean_Network"
-	@echo "... cMake_executable"
 	@echo "... include/BooleanNetworkEmulator/src/basicNetwork.o"
 	@echo "... include/BooleanNetworkEmulator/src/basicNetwork.i"
 	@echo "... include/BooleanNetworkEmulator/src/basicNetwork.s"
