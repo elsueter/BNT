@@ -52,7 +52,6 @@ public:
 	std::vector<sequence> getAttractors();
 	std::vector<sequence> getUniqueTraces();
 };
-#include "../src/basicNetwork.cpp"
 
 }
 

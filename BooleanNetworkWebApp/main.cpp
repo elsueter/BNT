@@ -1,7 +1,5 @@
-#include "../BooleanNetworkTool/include/booleanNetwork.h"
-
-#define CROW_MAIN
-#include "include/crow.h"
+#include <crow.h>
+#include <booleanNetwork.h>
 
 std::vector<std::vector<int> > ATT = {{0, 0}, {1, 0},
                                      {0, 1}, {0, 0},
@@ -35,7 +33,6 @@ int main(){
     crow::mustache::set_base(".");
     CROW_ROUTE(app,"/")
     ([&net]{
-        net.genTraces();
         crow::mustache::context ctx;
         auto page = crow::mustache::load("webApp/index.html");
         return page.render();
