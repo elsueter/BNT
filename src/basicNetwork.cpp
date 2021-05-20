@@ -57,7 +57,7 @@ bool sequenceArrContainsSubsequence(std::vector<sequence>& arr, sequence& in) {
 
 // Constructor/Destructor(s) -----------------------------------------------------------
 
-booleanNetwork::booleanNetwork(std::vector<state> inTT) {
+basicNetwork::basicNetwork(std::vector<state> inTT) {
 	int len = inTT.size() / 2;
 
 	netTT.reserve(len);
@@ -71,7 +71,7 @@ booleanNetwork::booleanNetwork(std::vector<state> inTT) {
 
 // Private Methods -----------------------------------------------------------------------
 
-void booleanNetwork::genTrace(sequence& trace) {
+void basicNetwork::genTrace(sequence& trace) {
 
 	trace.reserve(netTT.size());
 	attractors.reserve(netTT.size());
@@ -114,16 +114,16 @@ void booleanNetwork::genTrace(sequence& trace) {
 
 // Public Methods ------------------------------------------------------------------------
 
-void booleanNetwork::genTraces() {
+void basicNetwork::genTraces() {
 	for (auto& it : traces) {
 		genTrace(it);
 	}
 }
 
-void booleanNetwork::genTracesThreaded() {
+void basicNetwork::genTracesThreaded() {
 	std::vector<std::thread> threads;
 	for (auto& it : traces) {
-		threads.push_back(std::thread(&booleanNetwork::genTrace, this, std::ref(it)));
+		threads.push_back(std::thread(&basicNetwork::genTrace, this, std::ref(it)));
 	}
 
 	for (auto& it : threads) {
@@ -133,23 +133,23 @@ void booleanNetwork::genTracesThreaded() {
 
 // Getter/Setter Methods -----------------------------------------------------------------
 
-std::vector<statePair> booleanNetwork::getTT() {
+std::vector<statePair> basicNetwork::getTT() {
 	return netTT;
 }
 
-std::vector<sequence> booleanNetwork::getTraces() {
+std::vector<sequence> basicNetwork::getTraces() {
 	return traces;
 }
 
-std::vector<sequence> booleanNetwork::getAttractors() {
+std::vector<sequence> basicNetwork::getAttractors() {
 	return attractors;
 }
 
-std::vector<sequence> booleanNetwork::getUniqueTraces() {
+std::vector<sequence> basicNetwork::getUniqueTraces() {
 	return uniqueTraces;
 }
 
-void booleanNetwork::del() {
+void basicNetwork::del() {
 	traces.clear();
 	attractors.clear();
 	uniqueTraces.clear();

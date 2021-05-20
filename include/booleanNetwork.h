@@ -11,6 +11,8 @@
 
 // Network Structs ----------------------------------------------------------------------------
 
+namespace BooleanNetwork{
+
 typedef std::vector<bool> state;
 typedef std::vector<state> sequence;
 
@@ -21,7 +23,7 @@ struct statePair {
 
 // Network Class--------------------------------------------------------------------------------------
 
-class booleanNetwork {
+class basicNetwork {
 private:
 
 	std::mutex mtx;
@@ -36,7 +38,7 @@ private:
 	void genTrace(sequence& trace);
 
 public:
-	booleanNetwork(std::vector<state> inTT);
+	basicNetwork(std::vector<state> inTT);
 
 	void genTraces();
 	void genTracesThreaded();
@@ -48,6 +50,8 @@ public:
 	std::vector<sequence> getAttractors();
 	std::vector<sequence> getUniqueTraces();
 };
-#include "../src/models/basicNetwork.cpp"
+#include "../src/basicNetwork.cpp"
+
+}
 
 #endif
