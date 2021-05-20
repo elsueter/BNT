@@ -35,6 +35,8 @@ private:
 	std::vector<sequence> attractors;
 	std::vector<sequence> uniqueTraces;
 
+	bool generated;
+
 	void genTrace(sequence& trace);
 
 public:

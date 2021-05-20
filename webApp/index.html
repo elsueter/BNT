@@ -5,12 +5,36 @@
     <title>Test</title>
 </head>
 <body>
-    <div><h1>THIS IS A TEST</h1></div>
-    
+    <button onclick="generate()">Generate Traces</button>
+    <button onclick="fetchTraces()">Fetch Traces</button>
+    <script>
+        function generate() {
+            fetch("http://localhost:18080/");
+        }
+        function fetchTraces() {
+            fetch("http://localhost:18080/json")
+                .then( response =>
+                {
+                    if ( response.status !== 200 )
+                    {
+                        console.log( 'Looks like there was a problem. Status Code: ' +
+                            response.status );
+                        return;
+                    }
+
+                    console.log( response.headers.get( "Content-Type" ) );
+                    return response.json();
+                }
+                )
+                .then( myJson =>
+                {
+                    console.log(myJson);
+                } )
+                .catch( err =>
+                {
+                    console.log( 'Fetch Error :-S', err );
+                } );
+        }
+    </script>
 </body>
-<script>
-    fetch("http://localhost:18080/json")
-        .then(response => response.json())
-        .then(data => console.log(data));
-</script>
 </html>

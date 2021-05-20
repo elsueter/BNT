@@ -1,3 +1,0 @@
-/home/dev/booleanNetworkEmulator/CMakeFiles/rebuild_cache.dir
-/home/dev/booleanNetworkEmulator/CMakeFiles/cMake_executable.dir
-/home/dev/booleanNetworkEmulator/CMakeFiles/edit_cache.dir

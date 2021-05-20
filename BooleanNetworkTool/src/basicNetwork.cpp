@@ -67,12 +67,13 @@ basicNetwork::basicNetwork(std::vector<state> inTT) {
 		netTT.push_back({ inTT[i * 2], inTT[(i * 2) + 1] });
 		traces.push_back({ inTT[i * 2] });
 	}
+
+	generated = false;
 }
 
 // Private Methods -----------------------------------------------------------------------
 
 void basicNetwork::genTrace(sequence& trace) {
-
 	trace.reserve(netTT.size());
 	attractors.reserve(netTT.size());
 	uniqueTraces.reserve(netTT.size());
@@ -115,8 +116,11 @@ void basicNetwork::genTrace(sequence& trace) {
 // Public Methods ------------------------------------------------------------------------
 
 void basicNetwork::genTraces() {
-	for (auto& it : traces) {
-		genTrace(it);
+	if(!generated){
+		for (auto& it : traces) {
+			genTrace(it);
+		}
+		generated = true;
 	}
 }
 
