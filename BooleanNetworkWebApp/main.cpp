@@ -34,11 +34,23 @@ int main(){
     CROW_ROUTE(app,"/")
     ([&net]{
         crow::mustache::context ctx;
-        auto page = crow::mustache::load("webApp/index.html");
+        auto page = crow::mustache::load("BooleanNetworkWebApp/index.html");
         return page.render();
     });
+    
+    CROW_ROUTE(app, "/gen")
+    ([&net]{ 
+        net.genTraces();
+        return crow::response(200);
+    });
+    
+    CROW_ROUTE(app, "/del")
+    ([&net]{ 
+        net.del();
+        return crow::response(200);
+    });
 
-    CROW_ROUTE(app, "/json")
+    CROW_ROUTE(app, "/fetch")
     ([&net]{ 
         crow::json::wvalue x;
         x["truthTable"] = net.getTT();

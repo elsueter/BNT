@@ -7,7 +7,8 @@
 #include <vector>
 #include <algorithm>
 #include <thread>
-#include <mutex>
+#include <string>
+#include <sstream>
 
 // Network Structs ----------------------------------------------------------------------------
 
@@ -25,8 +26,6 @@ struct statePair {
 
 class basicNetwork {
 private:
-
-	std::mutex mtx;
 
 	//the network truth table for all states
 	std::vector<statePair> netTT;
@@ -48,9 +47,9 @@ public:
 	void del();
 
 	std::vector<sequence> getTT();
-	std::vector<sequence> getTraces();
-	std::vector<sequence> getAttractors();
-	std::vector<sequence> getUniqueTraces();
+	std::string getTraces();
+	std::string getAttractors();
+	std::string getUniqueTraces();
 };
 
 }

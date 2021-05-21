@@ -1,19 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+    #TruthTable {
+        width: 600px;
+        height: 400px;
+        border: 1px solid lightgray;
+    }
+    #Traces {
+        width: 600px;
+        height: 400px;
+        border: 1px solid lightgray;
+    }
+    #Attractors {
+        width: 600px;
+        height: 400px;
+        border: 1px solid lightgray;
+    }
+    #UniqueTraces {
+        width: 600px;
+        height: 400px;
+        border: 1px solid lightgray;
+    }
+    </style>
     <meta charset="utf-8">
     <title>Test</title>
+    <script
+    type="text/javascript"
+    src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"
+    ></script>
 </head>
 <body>
     <p>Aaaaaaaaa</p>
     <button onclick="generate()">Generate Traces</button>
     <button onclick="fetchTraces()">Fetch Traces</button>
+    <button onclick="deleteTraces()">Delete Traces</button>
     <script>
         function generate() {
-            fetch("http://localhost:18080/");
+            fetch("http://localhost:18080/gen");
         }
         function fetchTraces() {
-            fetch("http://localhost:18080/json")
+            fetch("http://localhost:18080/fetch")
                 .then( response =>
                 {
                     if ( response.status !== 200 )
@@ -30,12 +57,34 @@
                 .then( myJson =>
                 {
                     console.log(myJson);
+
+                    var Tradot = myJson.traces
+                    var Tracontainer = document.getElementById("Traces");
+                    var Tradata = vis.parseDOTNetwork(Tradot);
+                    var Tranetwork = new vis.Network(Tracontainer, Tradata);
+
+                    var Attdot = myJson.attractors
+                    var Attcontainer = document.getElementById("Attractors");
+                    var Attdata = vis.parseDOTNetwork(Attdot);
+                    var Attnetwork = new vis.Network(Attcontainer, Attdata);
+
+                    var UTradot = myJson.uniqueTraces
+                    var UTracontainer = document.getElementById("UniqueTraces");
+                    var UTradata = vis.parseDOTNetwork(UTradot);
+                    var UTranetwork = new vis.Network(UTracontainer, UTradata);
                 } )
                 .catch( err =>
                 {
                     console.log( 'Fetch Error :-S', err );
                 } );
         }
+        function deleteTraces() {
+            fetch("http://localhost:18080/del")
+        }
     </script>
+    <div id="TruthTable">TruthTable:</div>
+    <div id="Traces">Traces:</div>
+    <div id="Attractors">Attractors:</div>
+    <div id="UniqueTraces">UniqueTraces:</div>
 </body>
 </html>

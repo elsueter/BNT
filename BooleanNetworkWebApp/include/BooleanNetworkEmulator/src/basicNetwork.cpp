@@ -59,6 +59,30 @@ bool sequenceArrContainsSubsequence(std::vector<sequence>& arr, sequence& in) {
 	return false;
 }
 
+std::string stringifySequenceArr(std::vector<sequence> in){
+	std::string out = "dinetwork {node[shape=circle]; ";
+
+	for(int i = 0; i < in.size(); i++){
+		for(int j = 0; j < in[i].size(); j++){
+			std::stringstream ss;
+			for(auto& i: in[i][j]){
+				ss << i;
+			}
+			out += '"';
+			out += ss.str();
+			out += '"';
+			if(j < in[i].size()-1){
+				out += " -> ";
+			}
+		}
+		out += "; ";
+	}
+	
+	out += "}";
+
+	return out;
+}
+
 // Constructor/Destructor(s) -----------------------------------------------------------
 
 basicNetwork::basicNetwork(std::vector<state> inTT) {
@@ -69,7 +93,6 @@ basicNetwork::basicNetwork(std::vector<state> inTT) {
 
 	for (int i = 0; i < len; i++) {
 		netTT.push_back({ inTT[i * 2], inTT[(i * 2) + 1] });
-		traces.push_back({ inTT[i * 2] });
 	}
 
 	generated = false;
@@ -92,50 +115,56 @@ void basicNetwork::genTrace(sequence& trace) {
 					sequence temp(trace.begin() + index, trace.end());
 
 					if (!sequenceArrContains(attractors, temp)) {
-						mtx.lock();
 						attractors.push_back(temp);
-						mtx.unlock();
 					}
 
 					if (!sequenceArrContainsSubsequence(uniqueTraces, trace)) {
-						mtx.lock();
 						uniqueTraces.push_back(trace);
-						mtx.unlock();
 					}
 
 					attractorHit = true;
 				}
-				else {
-					trace.push_back(it.t1);
-				}
+
+				trace.push_back(it.t1);
 
 				break;
 			}
 		}
 	}
-
-	attractors.shrink_to_fit();
 }
 
 // Public Methods ------------------------------------------------------------------------
 
 void basicNetwork::genTraces() {
 	if(!generated){
+		for (auto& it: netTT) {
+			traces.push_back({it.t0});
+		}
 		for (auto& it : traces) {
 			genTrace(it);
 		}
+		
+		attractors.shrink_to_fit();
+
+		for(auto& it: attractors){
+			it.push_back(it[0]);
+		}
+
+		for(auto& it: uniqueTraces){
+			int index = -1;
+			
+
+			if(index == -1){
+				for(auto& it1: netTT){
+					if (it[it.size()-1] == it1.t0){
+						it.push_back(it1.t1);
+						break;
+					}
+				}
+			}
+		}
+
 		generated = true;
-	}
-}
-
-void basicNetwork::genTracesThreaded() {
-	std::vector<std::thread> threads;
-	for (auto& it : traces) {
-		threads.push_back(std::thread(&basicNetwork::genTrace, this, std::ref(it)));
-	}
-
-	for (auto& it : threads) {
-		it.join();
 	}
 }
 
@@ -152,20 +181,21 @@ std::vector<sequence> basicNetwork::getTT() {
 	return out;
 }
 
-std::vector<sequence> basicNetwork::getTraces() {
-	return traces;
+std::string basicNetwork::getTraces() {
+	return stringifySequenceArr(traces);
 }
 
-std::vector<sequence> basicNetwork::getAttractors() {
-	return attractors;
+std::string basicNetwork::getAttractors() {
+	return stringifySequenceArr(attractors);
 }
 
-std::vector<sequence> basicNetwork::getUniqueTraces() {
-	return uniqueTraces;
+std::string basicNetwork::getUniqueTraces() {
+	return stringifySequenceArr(uniqueTraces);
 }
 
 void basicNetwork::del() {
 	traces.clear();
 	attractors.clear();
 	uniqueTraces.clear();
+	generated = false;
 }
