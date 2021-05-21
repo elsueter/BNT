@@ -34,7 +34,7 @@ int main(){
     CROW_ROUTE(app,"/")
     ([&net]{
         crow::mustache::context ctx;
-        auto page = crow::mustache::load("BooleanNetworkWebApp/index.html");
+        auto page = crow::mustache::load("index.html");
         return page.render();
     });
     
