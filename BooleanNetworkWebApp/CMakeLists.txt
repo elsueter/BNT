@@ -6,6 +6,9 @@ project(BooleanNetworkWebApp)
 #set CMake Cpp standard
 set(CMAKE_CXX_STANDARD 14)
 
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/index.html
+     DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
 add_library(boolean_Network STATIC include/BooleanNetworkEmulator/src/basicNetwork.cpp include/BooleanNetworkEmulator/include/booleanNetwork.h)
 
 # add the executable
