@@ -16,12 +16,12 @@ add_executable(app src/main.cpp)
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
-target_link_libraries(WebApp PRIVATE Threads::Threads)
+target_link_libraries(app PRIVATE Threads::Threads)
 
-target_link_libraries(WebApp PUBLIC boolean_Network)
+target_link_libraries(app PUBLIC boolean_Network)
 
-target_include_directories(WebApp PUBLIC libs)
+target_include_directories(app PUBLIC libs)
 
-target_include_directories(WebApp PUBLIC include)
+target_include_directories(app PUBLIC include)
 
-target_include_directories(WebApp PUBLIC libs/boost_1_76_0)
+target_include_directories(app PUBLIC libs/boost_1_76_0)
