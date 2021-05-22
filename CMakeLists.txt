@@ -12,7 +12,7 @@ file(COPY src/index.html
 add_library(boolean_Network STATIC include/BNT/basicNetwork.cpp include/BNT/booleanNetwork.h)
 
 # add the executable
-add_executable(WebApp src/main.cpp)
+add_executable(app src/main.cpp)
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
