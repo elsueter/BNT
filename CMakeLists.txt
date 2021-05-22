@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD 14)
 file(COPY src/index.html
      DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
-add_library(boolean_Network STATIC include/BoolNet/basicNetwork.cpp include/BoolNet/booleanNetwork.h)
+add_library(boolean_Network STATIC include/BNT/basicNetwork.cpp include/BNT/booleanNetwork.h)
 
 # add the executable
 add_executable(WebApp src/main.cpp)
