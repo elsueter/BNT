@@ -37,10 +37,10 @@
     <button onclick="deleteTraces()">Delete Traces</button>
     <script>
         function generate() {
-            fetch("http://localhost:18080/gen");
+            fetch("/gen");
         }
         function fetchTraces() {
-            fetch("http://localhost:18080/fetch")
+            fetch("/fetch")
                 .then( response =>
                 {
                     if ( response.status !== 200 )
@@ -79,7 +79,7 @@
                 } );
         }
         function deleteTraces() {
-            fetch("http://localhost:18080/del")
+            fetch("/del")
         }
     </script>
     <div id="TruthTable">TruthTable:</div>
