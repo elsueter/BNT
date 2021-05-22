@@ -1,5 +1,5 @@
 #include <crow.h>
-#include <BoolNet/booleanNetwork.h>
+#include <BNT/booleanNetwork.h>
 
 std::vector<std::vector<int> > ATT = {{0, 0}, {1, 0},
                                      {0, 1}, {0, 0},
