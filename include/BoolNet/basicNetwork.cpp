@@ -1,4 +1,4 @@
-#include "../include/booleanNetwork.h"
+#include "booleanNetwork.h"
 
 using namespace BooleanNetwork;
 
