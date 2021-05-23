@@ -17,6 +17,7 @@ std::vector<std::vector<int> > BTT = {{0, 0, 0}, {0, 0, 0},
                                      {1, 1, 0}, {0, 0, 1},
                                      {1, 1, 1}, {0, 1, 1}};
 
+std::vector<std::string> BLS = {"A = C ^ !B", "B = C", "C = A"};
                                      
 std::vector<std::vector<int> > CTT = {{0, 0, 0}, {0, 1, 1},
                                      {0, 0, 1}, {0, 0, 1},
@@ -30,7 +31,7 @@ std::vector<std::vector<int> > CTT = {{0, 0, 0}, {0, 1, 1},
 int main(){
     BooleanNetwork::basicNetwork net(CTT);
 
-    BooleanNetwork::nodeNetwork net1(ALS);
+    BooleanNetwork::nodeNetwork net1(BLS);
 
     /*crow::SimpleApp app;
 

@@ -4,5 +4,5 @@ using namespace BooleanNetwork;
 
 nodeNetwork::nodeNetwork(std::vector<std::string> in){
     baseLogic = in;
-    nodes = parseLogic(in);
+    nodes = parseExpression(in);
 }

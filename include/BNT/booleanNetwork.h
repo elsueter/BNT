@@ -23,16 +23,7 @@ struct statePair {
 
 // Network Utilities--------------------------------------------------------------------------------
 
-std::vector<statePair> parseLogic(std::vector<std::string> in){
-    for(int i = 0; i < in.size(); i++){
-        std::vector<std::string> components = {""};
-        int part = 0;
-        for(int j = 0; j < in[i].length(); j++){
-            //components[part] += in[i];
-        }
-    }
-    return {{{1},{2}}};
-}
+std::vector<statePair> parseExpression(std::vector<std::string> in);
 
 // Network Classes--------------------------------------------------------------------------------------
 
