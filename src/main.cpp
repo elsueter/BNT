@@ -6,6 +6,8 @@ std::vector<std::vector<int> > ATT = {{0, 0}, {1, 0},
                                      {1, 0}, {1, 1},
                                      {1, 1}, {0, 1}};
 
+std::vector<std::string> ALS = {"A = !B", "B = A"};
+
 std::vector<std::vector<int> > BTT = {{0, 0, 0}, {0, 0, 0},
                                      {0, 0, 1}, {1, 1, 0},
                                      {0, 1, 0}, {0, 0, 0},
@@ -28,7 +30,9 @@ std::vector<std::vector<int> > CTT = {{0, 0, 0}, {0, 1, 1},
 int main(){
     BooleanNetwork::basicNetwork net(CTT);
 
-    crow::SimpleApp app;
+    BooleanNetwork::nodeNetwork net1(ALS);
+
+    /*crow::SimpleApp app;
 
     crow::mustache::set_base(".");
     CROW_ROUTE(app,"/")
@@ -60,7 +64,7 @@ int main(){
         return x;
     });
 
-    app.port(18080).multithreaded().run();
+    app.port(18080).multithreaded().run();*/
 
     return 0;
 }

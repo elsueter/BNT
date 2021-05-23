@@ -1,8 +1,4 @@
 /.vscode
 /main
 ignore/
-CMakeFiles/
-cmake_install.cmake
-CMakeCache.txt
-libboolean_Network.a
-WebApp
+build/

@@ -5,7 +5,6 @@
 // std includes ----------------------------------------------------------------------------
 
 #include <vector>
-#include <algorithm>
 #include <thread>
 #include <string>
 #include <sstream>
@@ -22,34 +21,61 @@ struct statePair {
 	state t1;
 };
 
-// Network Class--------------------------------------------------------------------------------------
+// Network Utilities--------------------------------------------------------------------------------
+
+std::vector<statePair> parseLogic(std::vector<std::string> in){
+    for(int i = 0; i < in.size(); i++){
+        std::vector<std::string> components = {""};
+        int part = 0;
+        for(int j = 0; j < in[i].length(); j++){
+            //components[part] += in[i];
+        }
+    }
+    return {{{1},{2}}};
+}
+
+// Network Classes--------------------------------------------------------------------------------------
 
 class basicNetwork {
-private:
+	private:
 
-	//the network truth table for all states
-	std::vector<statePair> netTT;
+		//the network truth table for all states
+		std::vector<statePair> netTT;
 
-	std::vector<sequence> traces;
-	std::vector<sequence> attractors;
-	std::vector<sequence> uniqueTraces;
+		std::vector<sequence> traces;
+		std::vector<sequence> attractors;
+		std::vector<sequence> uniqueTraces;
 
-	bool generated;
+		bool generated;
 
-	void genTrace(sequence& trace);
+		void genTrace(sequence& trace);
 
-public:
-	basicNetwork(std::vector<state> inTT);
+	public:
+		basicNetwork(std::vector<state> inTT);
 
-	void genTraces();
-	void genTracesThreaded();
+		void genTraces();
+		void genTracesThreaded();
 
-	void del();
+		void del();
 
-	std::vector<sequence> getTT();
-	std::string getTraces();
-	std::string getAttractors();
-	std::string getUniqueTraces();
+		std::vector<sequence> getTT();
+		std::string getTraces();
+		std::string getAttractors();
+		std::string getUniqueTraces();
+};
+
+class nodeNetwork{
+	private:
+		std::vector<std::string> baseLogic;
+
+		std::vector<statePair> nodes;
+
+		std::vector<sequence> traces;
+		std::vector<sequence> attractors;
+		std::vector<sequence> uniqueTraces;
+
+	public:
+		nodeNetwork(std::vector<std::string> in);
 };
 
 }

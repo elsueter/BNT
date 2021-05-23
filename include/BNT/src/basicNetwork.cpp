@@ -1,4 +1,5 @@
-#include "booleanNetwork.h"
+#include <BNT/booleanNetwork.h>
+#include <algorithm>
 
 using namespace BooleanNetwork;
 
@@ -145,25 +146,6 @@ void basicNetwork::genTraces() {
 		}
 		
 		attractors.shrink_to_fit();
-
-		for(auto& it: attractors){
-			it.push_back(it[0]);
-		}
-
-		for(auto& it: uniqueTraces){
-			int index = -1;
-			
-
-			if(index == -1){
-				for(auto& it1: netTT){
-					if (it[it.size()-1] == it1.t0){
-						it.push_back(it1.t1);
-						break;
-					}
-				}
-			}
-		}
-
 		generated = true;
 	}
 }
