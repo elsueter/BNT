@@ -21,9 +21,17 @@ struct statePair {
 	state t1;
 };
 
+struct node {
+	std::vector<int> nodes;
+	std::vector<char> ops;
+	state tt;
+
+	bool getVal(state in);
+};
+
 // Network Utilities--------------------------------------------------------------------------------
 
-std::vector<statePair> parseExpression(std::vector<std::string> in);
+std::vector<node> parseExpression(std::vector<std::string> in);
 
 // Network Classes--------------------------------------------------------------------------------------
 
@@ -59,7 +67,7 @@ class nodeNetwork{
 	private:
 		std::vector<std::string> baseLogic;
 
-		std::vector<statePair> nodes;
+		std::vector<node> nodes;
 
 		std::vector<sequence> traces;
 		std::vector<sequence> attractors;

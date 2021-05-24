@@ -1,18 +1,18 @@
 #include <BNT/booleanNetwork.h>
-#include <iostream>
 
 using namespace BooleanNetwork;
 
-template<typename T>
-void printVector(std::vector<T> in){
-    std::cout<<"{";
-    for(auto& it: in){
-        std::cout<<it;
-        if(it != in.back()){
-            std::cout<<",";
+bool node::getVal(state in){
+    for(int i = 0; i < in.size(); i++){
+        for(int j = 0; j < nodes.size(); j++){
+            if(i == nodes[j]){
+                if(tt[j] != in[i]){
+                    return false;
+                }
+            }
         }
     }
-    std::cout<<"}"<<std::endl;
+    return true;
 }
 
 std::vector<std::string> splitString(std::string in){
@@ -35,22 +35,23 @@ std::vector<std::string> splitString(std::string in){
     return components;
 }
 
-std::vector<int> convertString(std::vector<std::string> in){
-    std::vector<int> vals;
-    vals.reserve(in.size());
-    for(auto& it: in){
-        for(auto& ch: it){
-            vals.push_back(ch - 65);
-        }
-    }
-    vals.shrink_to_fit();
-    return vals;
-}
-
-std::vector<statePair> BooleanNetwork::parseExpression(std::vector<std::string> in){
+std::vector<node> BooleanNetwork::parseExpression(std::vector<std::string> in){
+    std::vector<node> out;
     for(int i = 0; i < in.size(); i++){
-        std::vector<int> temp = convertString(splitString(in[i]));
-        printVector(temp);
+        std::vector<std::string> temp = splitString(in[i]);
+        node tempNode;
+        for(int j = 2; j < temp.size(); j++){
+            if(temp[j][0] == '^' || temp[j][0] == 'v'){
+                tempNode.ops.push_back(temp[j][0]);
+            }else if(temp[j][0] == '!'){
+                tempNode.nodes.push_back((int)temp[j][1]-65);
+                tempNode.tt.push_back(0);
+            }else{
+                tempNode.nodes.push_back((int)temp[j][0]-65);
+                tempNode.tt.push_back(1);
+            }
+        }
+        out.push_back(tempNode);
     }
-    return {{{1},{2}}};
+    return out;
 }
