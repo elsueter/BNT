@@ -1,3 +1,5 @@
+//#define CROW_ENABLE_SSL
+
 #include <crow.h>
 #include <BNT/booleanNetwork.h>
 
@@ -65,7 +67,9 @@ int main(){
         return x;
     });
 
-    app.port(443).ssl_file("/etc/letsencrypt/live/elsueter.dev/fullchain.pem ").multithreaded().run();
+    app.port(443).multithreaded().run();
+
+    //app.ssl_file("/etc/letsencrypt/live/elsueter.dev/fullchain.pem");
 
     return 0;
 }
