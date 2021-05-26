@@ -33,7 +33,7 @@ int main(){
 
     BooleanNetwork::nodeNetwork net1(BLS);
 
-    /*crow::SimpleApp app;
+    crow::SimpleApp app;
 
     crow::mustache::set_base(".");
     CROW_ROUTE(app,"/")
@@ -65,7 +65,7 @@ int main(){
         return x;
     });
 
-    app.port(18080).multithreaded().run();*/
+    app.port(18080).multithreaded().run();
 
     return 0;
 }
