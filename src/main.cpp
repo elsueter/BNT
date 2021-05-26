@@ -67,9 +67,9 @@ int main(){
         return x;
     });
 
-    app.port(80).multithreaded().run();
+    //app.ssl_file("/etc/letsencrypt/live/elsueter.dev/fullchain.pem");
 
-    //app.ssl_file("/etc/letsencrypt/live/elsueter.dev/fullchain.pem"); -> g++ main.cpp -lssl -lcrypto -lpthread -lboost_system -lz -D CROW_ENABLE_SSL
+    app.port(80).multithreaded().run();
 
     return 0;
 }
