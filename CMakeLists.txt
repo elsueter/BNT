@@ -6,8 +6,6 @@ project(BooleanNetworkWebApp)
 #set CMake Cpp standard
 set(CMAKE_CXX_STANDARD 14)
 
-file(COPY src/index.html DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-
 #-----------------------------------------------------------------------------------------
 
 find_package(Threads)
@@ -47,3 +45,13 @@ target_link_libraries(app PRIVATE Threads::Threads)
 include(include/BNT/CMakeLists.txt)
 
 target_link_libraries(app PUBLIC boolean_Network)
+
+#-----------------------------------------------------------------------------------------
+
+file(COPY src/index.html DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
+file(COPY src/shellScripts/deploy.sh DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
+file(COPY src/shellScripts/restart.sh DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
+file(COPY src/shellScripts/kill.sh DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
