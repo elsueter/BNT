@@ -6,6 +6,8 @@ project(BooleanNetworkWebApp)
 #set CMake Cpp standard
 set(CMAKE_CXX_STANDARD 14)
 
+file(COPY src/index.html DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
 #-----------------------------------------------------------------------------------------
 
 find_package(Threads)
