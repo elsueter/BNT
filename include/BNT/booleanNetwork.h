@@ -4,10 +4,12 @@
 
 // std includes ----------------------------------------------------------------------------
 
+#include <crow/json.h>
 #include <vector>
 #include <thread>
 #include <string>
 #include <sstream>
+#include <fstream>
 
 // Network Structs ----------------------------------------------------------------------------
 
@@ -21,15 +23,26 @@ struct statePair {
 	state t1;
 };
 
-struct node {
-	std::vector<int> nodes;
-	std::vector<char> ops;
-	state tt;
+struct nodeValues{
+	int nodeName;
+	bool nodeValue;
+};
 
-	bool getVal(state in);
+struct rowState{
+	std::vector<nodeValues> in;
+	bool out;
+};
+
+struct node {
+	std::vector<rowState> TT;
+	std::string exp;
+	bool curr;
+	bool next;
 };
 
 // Network Utilities--------------------------------------------------------------------------------
+
+void parseFile();
 
 std::vector<node> parseExpression(std::vector<std::string> in);
 

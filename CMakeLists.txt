@@ -55,3 +55,5 @@ file(COPY src/shellScripts/deploy.sh DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 file(COPY src/shellScripts/restart.sh DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 file(COPY src/shellScripts/kill.sh DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
+file(COPY src/savedNetworks.json DESTINATION ${CMAKE_CURRENT_BINARY_DIR})

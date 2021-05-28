@@ -2,26 +2,66 @@
 <html lang="en">
 <head>
     <style>
-    #TruthTable {
-        width: 600px;
-        height: 400px;
-        border: 1px solid lightgray;
+    body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+        "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: #292929;
     }
-    #Traces {
-        width: 600px;
-        height: 400px;
-        border: 1px solid lightgray;
+
+    .content {
+    margin: 0 auto;
+    margin-top: 50px;
+    flex-wrap: wrap;
     }
-    #Attractors {
-        width: 600px;
-        height: 400px;
-        border: 1px solid lightgray;
+
+    .button-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+    max-width: 1250px;
     }
-    #UniqueTraces {
-        width: 600px;
-        height: 400px;
-        border: 1px solid lightgray;
+
+    .button {
+    background: white;
+    border: none;
+    border-radius: 6px;
+    padding: 15px 20px;
+    color: #292929;
+    cursor: pointer;
     }
+
+    .button:hover {
+    background: rgb(206, 206, 206);
+    transition: 0.2s ease-in-out;
+    }
+
+    .table {
+    color: white;
+    padding: 10px;
+    width: 600px;
+    height: 400px;
+    border: 1px solid white;
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 15px;
+    }
+
+    .graphs {
+    margin: 0 auto;
+    display: flex;
+    width: 100%;
+    max-width: 1500px;
+    justify-content: center;
+    align-items: center;  
+    flex-wrap: wrap;
+    }
+
     </style>
     <meta charset="utf-8">
     <title>Test</title>
@@ -31,10 +71,21 @@
     ></script>
 </head>
 <body>
-    <p>Aaaaaaaaa</p>
-    <button onclick="generate()">Generate Traces</button>
-    <button onclick="fetchTraces()">Fetch Traces</button>
-    <button onclick="deleteTraces()">Delete Traces</button>
+    <div class="button-wrapper">
+        <button class="button" onclick="generate()">Generate Traces</button>
+        <button class="button" onclick="fetchTraces()">Fetch Traces</button>
+        <button class="button" onclick="deleteTraces()">Generate Traces</button>
+    </div>
+    <div class="graphs">
+        <div id="TruthTable" class="table">TruthTable:</div>
+        <div id="Traces" class="table">Traces:</div>
+        <div id="Attractors" class="table">Attractors:</div>
+        <div id="UniqueTraces" class="table">UniqueTraces:</div>
+        <div id="UniqueTraces" class="table">UniqueTraces:</div>
+        <div id="UniqueTraces" class="table">UniqueTraces:</div>
+        <div id="UniqueTraces" class="table">UniqueTraces:</div>
+        <div id="UniqueTraces" class="table">UniqueTraces:</div>
+    </div>
     <script>
         function generate() {
             fetch("/gen");
@@ -58,20 +109,20 @@
                 {
                     console.log(myJson);
 
-                    var Tradot = myJson.traces
-                    var Tracontainer = document.getElementById("Traces");
-                    var Tradata = vis.parseDOTNetwork(Tradot);
-                    var Tranetwork = new vis.Network(Tracontainer, Tradata);
+                    let Tradot = myJson.traces
+                    let Tracontainer = document.getElementById("Traces");
+                    let Tradata = vis.parseDOTNetwork(Tradot);
+                    let Tranetwork = new vis.Network(Tracontainer, Tradata);
 
-                    var Attdot = myJson.attractors
-                    var Attcontainer = document.getElementById("Attractors");
-                    var Attdata = vis.parseDOTNetwork(Attdot);
-                    var Attnetwork = new vis.Network(Attcontainer, Attdata);
+                    let Attdot = myJson.attractors
+                    let Attcontainer = document.getElementById("Attractors");
+                    let Attdata = vis.parseDOTNetwork(Attdot);
+                    let Attnetwork = new vis.Network(Attcontainer, Attdata);
 
-                    var UTradot = myJson.uniqueTraces
-                    var UTracontainer = document.getElementById("UniqueTraces");
-                    var UTradata = vis.parseDOTNetwork(UTradot);
-                    var UTranetwork = new vis.Network(UTracontainer, UTradata);
+                    let UTradot = myJson.uniqueTraces
+                    let UTracontainer = document.getElementById("UniqueTraces");
+                    let UTradata = vis.parseDOTNetwork(UTradot);
+                    let UTranetwork = new vis.Network(UTracontainer, UTradata);
                 } )
                 .catch( err =>
                 {
@@ -82,9 +133,5 @@
             fetch("/del")
         }
     </script>
-    <div id="TruthTable">TruthTable:</div>
-    <div id="Traces">Traces:</div>
-    <div id="Attractors">Attractors:</div>
-    <div id="UniqueTraces">UniqueTraces:</div>
 </body>
 </html>
