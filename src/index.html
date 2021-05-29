@@ -75,16 +75,29 @@
         <button class="button" onclick="generate()">Generate Traces</button>
         <button class="button" onclick="fetchTraces()">Fetch Traces</button>
         <button class="button" onclick="deleteTraces()">Generate Traces</button>
+        <button class="button" onclick="sendState()">Send State</button>
+    </div>
+    <input type="text" id="inputState" value="">
+    <div>
+
     </div>
     <div class="graphs">
-        <div id="TruthTable" class="table">TruthTable:</div>
-        <div id="Traces" class="table">Traces:</div>
-        <div id="Attractors" class="table">Attractors:</div>
-        <div id="UniqueTraces" class="table">UniqueTraces:</div>
-        <div id="UniqueTraces" class="table">UniqueTraces:</div>
-        <div id="UniqueTraces" class="table">UniqueTraces:</div>
-        <div id="UniqueTraces" class="table">UniqueTraces:</div>
-        <div id="UniqueTraces" class="table">UniqueTraces:</div>
+        <div class="wrapper">
+            <h2>Truth Table</h2>
+            <div id="TruthTable" class="table"></div>
+        </div>
+        <div class="wrapper">
+            <h2>Traces</h2>
+            <div id="Traces" class="table"></div>
+        </div>
+        <div class="wrapper">
+            <h2>Attractors</h2>
+            <div id="Attractors" class="table"></div>
+        </div>
+        <div class="wrapper">
+            <h2>Unique Traces</h2>
+            <div id="UniqueTraces" class="table"></div>
+        </div>
     </div>
     <script>
         function generate() {
@@ -131,6 +144,41 @@
         }
         function deleteTraces() {
             fetch("/del")
+        }
+        function sendState(){
+            let data = "{ \"state\":"
+            data += document.getElementById('inputState').value;
+            data += "}";
+
+            fetch('/sendState', {
+                    method: 'POST',
+                    body: data,
+                })
+                .then( response =>
+                {
+                    if ( response.status !== 200 )
+                    {
+                        console.log( 'Looks like there was a problem. Status Code: ' +
+                            response.status );
+                        return;
+                    }
+
+                    console.log( response.headers.get( "Content-Type" ) );
+                    return response.json();
+                }
+                )
+                .then( myJson =>
+                {
+                    console.log(myJson);
+                    let Tradot = myJson.traces
+                    let Tracontainer = document.getElementById("Traces");
+                    let Tradata = vis.parseDOTNetwork(Tradot);
+                    let Tranetwork = new vis.Network(Tracontainer, Tradata);
+                } )
+                .catch( err =>
+                {
+                    console.log( 'Fetch Error :-S', err );
+                } );
         }
     </script>
 </body>

@@ -4,73 +4,112 @@
 #include <crow.h>
 #include <BNT/booleanNetwork.h>
 
-std::vector<std::vector<int> > ATT = {{0, 0}, {1, 0},
-                                     {0, 1}, {0, 0},
-                                     {1, 0}, {1, 1},
-                                     {1, 1}, {0, 1}};
+// Printing (Temp) -----------------------------------------------
 
-std::vector<std::string> ALS = {"A = !B", "B = A"};
+#include <iostream>
 
-std::vector<std::vector<int> > BTT = {{0, 0, 0}, {0, 0, 0},
-                                     {0, 0, 1}, {1, 1, 0},
-                                     {0, 1, 0}, {0, 0, 0},
-                                     {0, 1, 1}, {0, 1, 0},
-                                     {1, 0, 0}, {0, 0, 1},
-                                     {1, 0, 1}, {1, 1, 1},
-                                     {1, 1, 0}, {0, 0, 1},
-                                     {1, 1, 1}, {0, 1, 1}};
+void printState(BooleanNetwork::state in){
+    std::cout<<"{";
+    for(int i = 0; i < in.size(); i++){
+        std::cout<<in[i];
+        if(i != in.size()-1){
+            std::cout<<", ";
+        }
+    }
+    std::cout<<"}";
+}
 
-std::vector<std::string> BLS = {"A = C v !B", "B = C", "C = A"};
-                                     
-std::vector<std::vector<int> > CTT = {{0, 0, 0}, {0, 1, 1},
-                                     {0, 0, 1}, {0, 0, 1},
-                                     {0, 1, 0}, {0, 1, 1},
-                                     {0, 1, 1}, {1, 0, 1},
-                                     {1, 0, 0}, {0, 1, 0},
-                                     {1, 0, 1}, {0, 0, 0},
-                                     {1, 1, 0}, {0, 1, 0},
-                                     {1, 1, 1}, {1, 0, 0}};
+void printSequence(BooleanNetwork::sequence in){
+    for(int i = 0; i < in.size(); i++){
+        printState(in[i]);
+        if(i != in.size()-1){
+            std::cout<<", ";
+        }
+    }
+    std::cout<<std::endl;
+}
+void printSequenceArr(std::vector<BooleanNetwork::sequence> in){
+    for(int i = 0; i < in.size(); i++){
+        printSequence(in[i]);
+    }
+}
+
+//Timing functions (temp) -----------------------------------------------
+
+#include <chrono>
+
+struct timer {
+    std::chrono::high_resolution_clock::time_point t;
+    void start() {
+        t = std::chrono::high_resolution_clock::now();
+    }
+
+    void stop() {
+        auto t1 = std::chrono::high_resolution_clock::now();
+        std::chrono::duration< double > fs = t1 - t;
+        std::chrono::microseconds d = std::chrono::duration_cast<std::chrono::microseconds>(fs);
+        std::cout << d.count() << " us\n";
+    }
+    
+    void restart() {
+        stop();
+        start();
+    }
+};
+
+//Main -----------------------------------------------
 
 int main(){
-    BooleanNetwork::basicNetwork net(CTT);
+    BooleanNetwork::netStrucArr savedFiles = BooleanNetwork::parseFile();
+    std::vector<BooleanNetwork::nodeNetwork> savedNetworks;
+    for(auto& it: savedFiles){
+        savedNetworks.push_back(BooleanNetwork::nodeNetwork(it));
+    }
 
-    BooleanNetwork::nodeNetwork net1(BLS);
-
-    /*crow::SimpleApp app;
+    crow::SimpleApp app;
 
     crow::mustache::set_base(".");
     CROW_ROUTE(app,"/")
-    ([&net]{
+    ([]{
         crow::mustache::context ctx;
         auto page = crow::mustache::load("index.html");
         return page.render();
     });
     
     CROW_ROUTE(app, "/gen")
-    ([&net]{ 
-        net.genTraces();
+    ([]{
         return crow::response(200);
     });
     
     CROW_ROUTE(app, "/del")
-    ([&net]{ 
-        net.del();
+    ([]{
         return crow::response(200);
     });
 
     CROW_ROUTE(app, "/fetch")
-    ([&net]{ 
+    ([&savedNetworks]{ 
         crow::json::wvalue x;
-        x["truthTable"] = net.getTT();
-        x["traces"] = net.getTraces();
-        x["attractors"] = net.getAttractors();
-        x["uniqueTraces"] = net.getUniqueTraces(); 
+        x["traces"] = savedNetworks[1].getTraces();
+        x["attractors"] = savedNetworks[1].getAttractors();
+        x["uniqueTraces"] = savedNetworks[1].getUniqueTraces();
         return x;
+    });
+
+    CROW_ROUTE(app, "/sendState")
+    .methods("POST"_method)
+    ([&savedNetworks](const crow::request& req){
+        auto x = crow::json::load(req.body);
+        if (!x)
+            return crow::response(400);
+        savedNetworks[1].synchronusIterate(x["state"]);
+        crow::json::wvalue y;
+        y["traces"] = savedNetworks[1].getTraces();
+        return crow::response(y);
     });
 
     //app.ssl_file("/etc/letsencrypt/live/elsueter.dev/fullchain.pem");
 
-    app.port(80).multithreaded().run();*/
+    app.port(80).multithreaded().run();
 
     return 0;
 }

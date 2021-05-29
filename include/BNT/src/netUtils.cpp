@@ -1,34 +1,14 @@
 #include <BNT/booleanNetwork.h>
 
-//Timing functions
-
-#include <chrono>
-
-struct timer {
-    std::chrono::high_resolution_clock::time_point t;
-    void start() {
-        t = std::chrono::high_resolution_clock::now();
-    }
-
-    void stop() {
-        auto t1 = std::chrono::high_resolution_clock::now();
-        std::chrono::duration< double > fs = t1 - t;
-        std::chrono::microseconds d = std::chrono::duration_cast<std::chrono::microseconds>(fs);
-        std::cout << d.count() << " us\n";
-    }
-    
-    void restart() {
-        stop();
-        start();
-    }
-};
-
-#include <iostream>
-
 using namespace BooleanNetwork;
 
-void BooleanNetwork::parseFile(){
-    
+std::string BooleanNetwork::stringify(netStruc in){
+    return "";
+}
+
+netStrucArr BooleanNetwork::parseFile(){
+    netStrucArr out;
+
     std::ifstream ifs("savedNetworks.json");
     std::string content( (std::istreambuf_iterator<char>(ifs) ),
                        (std::istreambuf_iterator<char>()    ) );
@@ -36,27 +16,56 @@ void BooleanNetwork::parseFile(){
     crow::json::rvalue x = crow::json::load(content);
 
     for(auto& network: x){
-        std::vector<node> net;
-        if(network.has("expressions")){
+        netStruc net;
+        if(network.has("expressions") && network.has("truthTables")){
             net.reserve(network["expressions"].size());
             for(auto& expression: network["expressions"]){
-                node temp;
+                node temp = {{}, "", 0, 0};
                 temp.exp = expression.s();
                 net.push_back(temp);
             }
-            for(auto& it: net){
-                std::cout<<it.exp<<std::endl;
-            }
-        }else{
-            net.reserve(network["truthTables"].size());
-            for(auto& rs: network["truthTables"]){
-                node temp;
-                temp.TT = rs.s();
-                net.push_back(temp);
-            }
-            for(auto& it: net){
-                std::cout<<it.exp<<std::endl;
+            for(int i = 0; i < net.size(); i++){
+                for(auto& it: network["truthTables"][i]){
+                    statePair tempRow;
+                    for(auto& in: it["in"]){
+                        nodeMap tempNode;
+                        tempNode.nodeName = in[0].i();
+                        tempNode.nodeValue = in[1].i();
+                        tempRow.in.push_back(tempNode);
+                    }
+                    tempRow.out = it["out"].i();
+                    net[i].TT.push_back(tempRow);
+                }
             }
         }
+        else if(network.has("expressions")){
+            net.reserve(network["expressions"].size());
+            for(auto& expression: network["expressions"]){
+                node temp = {{}, "", 0, 0};
+                temp.exp = expression.s();
+                //-> insert expression parser
+                net.push_back(temp);
+            }
+        }
+        else if(network.has("truthTables")){
+            net.reserve(network["truthTables"].size());
+            for(int i = 0; i < network["truthTables"].size(); i++){
+                node temp = {{}, "", 0, 0};
+                for(auto& it: network["truthTables"][i]){
+                    statePair tempRow;
+                    for(auto& in: it["in"]){
+                        nodeMap tempNode;
+                        tempNode.nodeName = in[0].i();
+                        tempNode.nodeValue = in[1].i();
+                        tempRow.in.push_back(tempNode);
+                    }
+                    tempRow.out = it["out"].i();
+                    temp.TT.push_back(tempRow);
+                }
+                net.push_back(temp);
+            }
+        }
+        out.push_back(net);
     }
+    return out;
 }
