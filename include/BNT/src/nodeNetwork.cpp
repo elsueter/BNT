@@ -48,6 +48,12 @@ void nodeNetwork::synchronusIterate(crow::json::rvalue start){
     synchronusIterate();
 }
 
+void nodeNetwork::clear(){
+    traces.clear();
+    attractors.clear();
+    uniqueTraces.clear();
+}
+
 state nodeNetwork::getState(){
     state out;
     for(auto& it: nodes){
@@ -69,6 +75,7 @@ std::string nodeNetwork::getTraces(){
                 out += "->";
             }
         }
+        out += ';';
     }
     out += "}";
     return out;

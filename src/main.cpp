@@ -82,7 +82,8 @@ int main(){
     });
     
     CROW_ROUTE(app, "/del")
-    ([]{
+    ([&savedNetworks]{
+        savedNetworks.clear();
         return crow::response(200);
     });
 

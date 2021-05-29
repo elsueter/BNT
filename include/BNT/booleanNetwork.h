@@ -83,6 +83,8 @@ class nodeNetwork{
 		void synchronusIterate(state start);
 		void synchronusIterate(crow::json::rvalue start);
 
+		void clear();
+
 		state getState();
 		std::string getTraces();
 		std::vector<sequence> getAttractors();
