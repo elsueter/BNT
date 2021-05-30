@@ -34,7 +34,7 @@ void printSequenceArr(std::vector<BooleanNetwork::sequence> in){
     }
 }
 
-//Timing functions (temp) -----------------------------------------------
+//Timing Class (temp for benchmarking) -----------------------------------------------
 
 #include <chrono>
 
@@ -66,8 +66,10 @@ int main(){
         savedNetworks.push_back(BooleanNetwork::nodeNetwork(it));
     }
 
+    //Crow app and routing lambda functions (Web Server)
     crow::SimpleApp app;
 
+    //Base request and main page fetch
     crow::mustache::set_base(".");
     CROW_ROUTE(app,"/")
     ([]{
@@ -76,6 +78,7 @@ int main(){
         return page.render();
     });
     
+    //Other route lambda function (to be updated)
     CROW_ROUTE(app, "/gen")
     ([]{
         return crow::response(200);
@@ -90,7 +93,7 @@ int main(){
     CROW_ROUTE(app, "/fetch")
     ([&savedNetworks]{ 
         crow::json::wvalue x;
-        x["traces"] = savedNetworks[1].getTraces();
+        x["traces"] = savedNetworks[1].getTrace();
         x["attractors"] = savedNetworks[1].getAttractors();
         x["uniqueTraces"] = savedNetworks[1].getUniqueTraces();
         return x;
@@ -104,7 +107,7 @@ int main(){
             return crow::response(400);
         savedNetworks[1].synchronusIterate(x["state"]);
         crow::json::wvalue y;
-        y["traces"] = savedNetworks[1].getTraces();
+        y["traces"] = savedNetworks[1].getTrace();
         return crow::response(y);
     });
 

@@ -2,10 +2,6 @@
 
 using namespace BooleanNetwork;
 
-std::string BooleanNetwork::stringify(netStruc in){
-    return "";
-}
-
 netStrucArr BooleanNetwork::parseFile(){
     netStrucArr out;
 
