@@ -48,7 +48,7 @@ struct timer {
         auto t1 = std::chrono::high_resolution_clock::now();
         std::chrono::duration< double > fs = t1 - t;
         std::chrono::microseconds d = std::chrono::duration_cast<std::chrono::microseconds>(fs);
-        std::cout << d.count() << " us\n";
+        std::cout << d.count() << " us"<<std::endl;
     }
     
     void restart() {
