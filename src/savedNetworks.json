@@ -1,5 +1,7 @@
 {
     "NetA": {
+        "netExp":[],
+
         "expressions": ["!B", "A"],
 
         "truthTables":[
