@@ -12,7 +12,9 @@ find_package(Threads)
 find_package(ZLIB)
 find_package(OpenSSL)
 
-include_directories(${OPENSSL_INCLUDE_DIR})
+if(OPENSSL_FOUND)
+    include_directories(${OPENSSL_INCLUDE_DIR})
+endif()
 
 if (NOT CMAKE_BUILD_TYPE)
     message(STATUS "No build type selected, default to Release")
