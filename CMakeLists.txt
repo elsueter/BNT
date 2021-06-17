@@ -32,8 +32,6 @@ endif()
 
 include_directories(${Boost_INCLUDE_DIR})
 
-include_directories(libs)
-
 #-----------------------------------------------------------------------------------------
 
 # add the executable
@@ -44,6 +42,12 @@ target_link_libraries(app PRIVATE Threads::Threads)
 
 include(include/BNT/CMakeLists.txt)
 
+add_library(crow INTERFACE)
+target_include_directories(crow INTERFACE libs)
+
+include_directories(libs)
+
+target_link_libraries(app PUBLIC crow)
 target_link_libraries(app PUBLIC boolean_Network)
 target_link_libraries(app PUBLIC OpenSSL::SSL OpenSSL::Crypto)
 
