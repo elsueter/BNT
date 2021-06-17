@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.5)
 project(BooleanNetworkWebApp)
 
 #set CMake Cpp standard
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
 #-----------------------------------------------------------------------------------------
 
@@ -12,9 +12,7 @@ find_package(Threads)
 find_package(ZLIB)
 find_package(OpenSSL)
 
-if(OPENSSL_FOUND)
-    include_directories(${OPENSSL_INCLUDE_DIR})
-endif()
+include_directories(${OPENSSL_INCLUDE_DIR})
 
 if (NOT CMAKE_BUILD_TYPE)
     message(STATUS "No build type selected, default to Release")
