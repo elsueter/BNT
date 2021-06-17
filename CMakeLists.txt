@@ -42,8 +42,7 @@ target_link_libraries(app PRIVATE Threads::Threads)
 
 include(include/BNT/CMakeLists.txt)
 
-add_library(crow INTERFACE)
-target_include_directories(crow INTERFACE libs)
+add_library(crow STATIC src/crow.cpp libs/crow.h)
 
 include_directories(libs)
 
