@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD 14)
 
 find_package(Threads)
 find_package(ZLIB)
-find_package(OpenSSL)
+find_package(OpenSSL REQUIRED)
 
 if(OPENSSL_FOUND)
     include_directories(${OPENSSL_INCLUDE_DIR})
@@ -45,6 +45,7 @@ target_link_libraries(app PRIVATE Threads::Threads)
 include(include/BNT/CMakeLists.txt)
 
 target_link_libraries(app PUBLIC boolean_Network)
+target_link_libraries(app PUBLIC OpenSSL::SSL OpenSSL::Crypto)
 
 #-----------------------------------------------------------------------------------------
 
