@@ -1,4 +1,4 @@
-//#define CROW_ENABLE_SSL
+#define CROW_ENABLE_SSL
 #define CROW_MAIN
 
 #include <crow/app.h>
@@ -112,13 +112,7 @@ int main(){
         return crow::response(y);
     });
 
-    ssl::context ctx(ssl::context::sslv23);
-    ctx.set_verify_mode(ssl::verify_peer);
-    ctx.load_verify_file("/etc/letsencrypt/live/elsueter.dev/fullchain.pem");
-
-    app.ssl(ctx)
-
-    app.port(80).multithreaded().run();
+    app.port(443).ssl_file("/etc/letsencrypt/live/elsueter.dev/fullchain.pem").multithreaded().run();
 
     return 0;
 }
