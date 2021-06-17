@@ -1,7 +1,8 @@
-#define CROW_ENABLE_SSL
+//#define CROW_ENABLE_SSL
 #define CROW_MAIN
 
-#include <crow.h>
+#include <crow/app.h>
+#include <crow/mustache.h>
 #include <BNT/booleanNetwork.h>
 
 // Printing (Temp) -----------------------------------------------
