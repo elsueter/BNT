@@ -112,7 +112,11 @@ int main(){
         return crow::response(y);
     });
 
-    //app.ssl_file("/etc/letsencrypt/live/elsueter.dev/fullchain.pem");
+    ssl::context ctx(ssl::context::sslv23);
+    ctx.set_verify_mode(ssl::verify_peer);
+    ctx.load_verify_file("/etc/letsencrypt/live/elsueter.dev/fullchain.pem");
+
+    app.ssl(ctx)
 
     app.port(80).multithreaded().run();
 
