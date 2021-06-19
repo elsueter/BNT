@@ -1,5 +1,5 @@
-pkill -9 app
+pkill -9 BNT
 git pull
 cmake ..
 make
-./app > app.log 2>&1 &
+./BNT > BNT.log 2>&1 &

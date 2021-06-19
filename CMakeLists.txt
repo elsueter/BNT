@@ -35,7 +35,7 @@ include_directories(${Boost_INCLUDE_DIR})
 #-----------------------------------------------------------------------------------------
 
 # add the executable
-add_executable(app src/main.cpp)
+add_executable(BNT src/main.cpp)
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 target_link_libraries(app PRIVATE Threads::Threads)
@@ -47,9 +47,9 @@ target_include_directories(crow INTERFACE libs)
 
 include_directories(libs)
 
-target_link_libraries(app PUBLIC crow)
-target_link_libraries(app PUBLIC boolean_Network)
-target_link_libraries(app PUBLIC OpenSSL::SSL OpenSSL::Crypto)
+target_link_libraries(BNT PUBLIC crow)
+target_link_libraries(BNT PUBLIC boolean_Network)
+target_link_libraries(BNT PUBLIC OpenSSL::SSL OpenSSL::Crypto)
 
 #-----------------------------------------------------------------------------------------
 
