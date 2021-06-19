@@ -101,10 +101,10 @@
     </div>
     <script>
         function generate() {
-            fetch("/gen");
+            fetch("/BNT/gen");
         }
         function fetchTraces() {
-            fetch("/fetch")
+            fetch("/BNT/fetch")
                 .then( response =>
                 {
                     if ( response.status !== 200 )
@@ -143,14 +143,14 @@
                 } );
         }
         function deleteTraces() {
-            fetch("/del")
+            fetch("/BNT/del")
         }
         function sendState(){
             let data = "{ \"state\":"
             data += document.getElementById('inputState').value;
             data += "}";
 
-            fetch('/sendState', {
+            fetch('/BNT/sendState', {
                     method: 'POST',
                     body: data,
                 })
