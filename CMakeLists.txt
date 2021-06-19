@@ -38,7 +38,7 @@ include_directories(${Boost_INCLUDE_DIR})
 add_executable(BNT src/main.cpp)
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
-target_link_libraries(app PRIVATE Threads::Threads)
+target_link_libraries(BNT PRIVATE Threads::Threads)
 
 include(include/BNT/CMakeLists.txt)
 
