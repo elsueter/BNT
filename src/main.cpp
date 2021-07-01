@@ -49,7 +49,7 @@ int main(){
         savedNetworks.push_back(BooleanNetwork::nodeNetwork(it));
     }
 
-    for(auto it: savedNetworks){
+    /*for(auto it: savedNetworks){
         start = clock();
         it.generateStateGraph();
         end = clock();
@@ -61,9 +61,9 @@ int main(){
         printSequenceArr(it.getAttractors());
         std::cout<<std::endl;
         std::cout<<it.getNodesS()<<std::endl;
-    }
+    }*/
     
-    /*
+    
     //Crow app and routing lambda functions (Web Server)
     crow::SimpleApp app;
 
@@ -112,6 +112,6 @@ int main(){
         return crow::response(y);
     });
 
-    app.port(18080).multithreaded().run();*/
+    app.port(18080).multithreaded().run();
     return 0;
 }
