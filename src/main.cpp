@@ -1,4 +1,3 @@
-//#define CROW_ENABLE_SSL
 #define CROW_MAIN
 
 #include <crow/app.h>
@@ -29,44 +28,42 @@ void printSequence(BooleanNetwork::sequence in){
     }
     std::cout<<std::endl;
 }
+
 void printSequenceArr(std::vector<BooleanNetwork::sequence> in){
     for(int i = 0; i < in.size(); i++){
         printSequence(in[i]);
     }
 }
 
-//Timing Class (temp for benchmarking) -----------------------------------------------
-
-#include <chrono>
-
-struct timer {
-    std::chrono::high_resolution_clock::time_point t;
-    void start() {
-        t = std::chrono::high_resolution_clock::now();
-    }
-
-    void stop() {
-        auto t1 = std::chrono::high_resolution_clock::now();
-        std::chrono::duration< double > fs = t1 - t;
-        std::chrono::microseconds d = std::chrono::duration_cast<std::chrono::microseconds>(fs);
-        std::cout << d.count() << " us"<<std::endl;
-    }
-    
-    void restart() {
-        stop();
-        start();
-    }
-};
-
 //Main -----------------------------------------------
 
+#include <time.h>
+
 int main(){
+    clock_t start, end;
+    double cpu_time_used;
+
     BooleanNetwork::netStrucArr savedFiles = BooleanNetwork::parseFile();
     std::vector<BooleanNetwork::nodeNetwork> savedNetworks;
     for(auto& it: savedFiles){
         savedNetworks.push_back(BooleanNetwork::nodeNetwork(it));
     }
 
+    for(auto it: savedNetworks){
+        start = clock();
+        it.generateStateGraph();
+        end = clock();
+        cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+        std::cout<<cpu_time_used<<" s"<<std::endl;
+        std::cout<<std::endl;
+        printSequenceArr(it.getUniqueTraces());
+        std::cout<<std::endl;
+        printSequenceArr(it.getAttractors());
+        std::cout<<std::endl;
+        std::cout<<it.getNodesS()<<std::endl;
+    }
+    
+    /*
     //Crow app and routing lambda functions (Web Server)
     crow::SimpleApp app;
 
@@ -87,16 +84,17 @@ int main(){
     
     CROW_ROUTE(app, "/del")
     ([&savedNetworks]{
-        savedNetworks[1].clear();
+        savedNetworks[2].clear();
         return crow::response(200);
     });
 
     CROW_ROUTE(app, "/fetch")
     ([&savedNetworks]{ 
         crow::json::wvalue x;
-        x["traces"] = savedNetworks[1].getTrace();
-        x["attractors"] = savedNetworks[1].getAttractors();
-        x["uniqueTraces"] = savedNetworks[1].getUniqueTraces();
+        savedNetworks[2].generateStateGraph();
+        x["traces"] = savedNetworks[2].getTraceS();
+        x["attractors"] = savedNetworks[2].getAttractorsS();
+        x["uniqueTraces"] = savedNetworks[2].getUniqueTracesS();
         return x;
     });
 
@@ -106,12 +104,14 @@ int main(){
         auto x = crow::json::load(req.body);
         if (!x)
             return crow::response(400);
-        savedNetworks[1].synchronusIterate(x["state"]);
+        savedNetworks[2].synchronusIterate(x["state"]);
         crow::json::wvalue y;
-        y["traces"] = savedNetworks[1].getTrace();
+        y["traces"] = savedNetworks[2].getTraceS();
+        y["attractors"] = savedNetworks[2].getAttractorsS();
+        y["uniqueTraces"] = savedNetworks[2].getUniqueTracesS();
         return crow::response(y);
     });
 
-    app.port(18080).multithreaded().run();
+    app.port(18080).multithreaded().run();*/
     return 0;
 }

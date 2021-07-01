@@ -9,7 +9,6 @@
 //#include <thread>
 #include <string>
 #include <fstream> //File operations (read/write)
-#include <map>
 
 // Network Structs ----------------------------------------------------------------------------
 
@@ -33,6 +32,7 @@ struct statePair{
 struct node {
 	std::vector<statePair> TT;
 	std::string exp;
+	std::string label;
 	bool curr;
 	bool next;
 
@@ -50,13 +50,66 @@ typedef std::vector<netStruc> netStrucArr;
 // Network Utilities--------------------------------------------------------------------------------
 
 template<typename T>
-bool vectorContains(std::vector<T> arr, T in){
-    for(auto& it: arr){
-        if(it == in){
-            return true;
+int vectorContains(std::vector<T> arr, T in){
+    for(int i = 0; i < arr.size(); i++){
+        if(arr[i] == in){
+            return i;
         }
     }
-    return false;
+    return -1;
+}
+
+template<typename T>
+bool vectorPermComparison(std::vector<T> seq, std::vector<T> in){
+
+	for(int i = 0; i < seq.size(); i++){
+		if(seq == in){
+			return true;
+		}
+		T temp = seq[0];
+		for(int i = 1; i < seq.size(); i++){
+			seq[i-1] = seq[i];
+		}
+		seq[seq.size()-1] = temp;
+	}
+	return false;
+}
+
+template<typename T>
+bool vectorArrEquals(std::vector<std::vector<T> > arr, std::vector<T> in){
+    for(auto it: arr){
+		if(vectorPermComparison(it, in)){
+			return true;
+		}
+    }
+	return false;
+}
+
+template<typename T>
+int vectorArrContains(std::vector<std::vector<T> > arr, std::vector<T> in){
+	for(int i = 0; i < arr.size(); i++){
+		auto one = arr[i];
+		auto two = in;
+
+		one.pop_back();
+		two.pop_back();
+
+		int diff = one.size() - two.size();
+
+		if(diff > 0){
+			one.erase(one.begin(), one.begin()+diff);
+		}else if(diff < 0){
+			two.erase(two.begin(), two.begin()-diff);
+		}
+
+		if(vectorPermComparison(one, two)){
+			if(diff < 0){
+				return i;
+			}
+			return -2;
+		}
+	}
+	return -1;
 }
 
 netStrucArr parseFile();
@@ -84,13 +137,19 @@ public:
 	void synchronusIterate(state start);
 	void synchronusIterate(crow::json::rvalue start);
 
+	void generateStateGraph();
+
 	void clear();
 
 	state getState();
 
-	std::string getTrace();
+	sequence getTrace();
+	std::string getTraceS();
 	std::vector<sequence> getAttractors();
+	std::string getAttractorsS();
 	std::vector<sequence> getUniqueTraces();
+	std::string getUniqueTracesS();
+	std::string getNodesS();
 };
 
 }

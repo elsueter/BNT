@@ -2,6 +2,8 @@
 
 using namespace BooleanNetwork;
 
+#include <iostream>
+
 netStrucArr BooleanNetwork::parseFile(){
     netStrucArr out;
 
@@ -16,12 +18,13 @@ netStrucArr BooleanNetwork::parseFile(){
         if(network.has("expressions") && network.has("truthTables")){
             net.reserve(network["expressions"].size());
             for(auto& expression: network["expressions"]){
-                node temp = {{}, "", 0, 0};
+                node temp = {{}, "", "", 0, 0};
                 temp.exp = expression.s();
                 net.push_back(temp);
             }
-            for(int i = 0; i < net.size(); i++){
-                for(auto& it: network["truthTables"][i]){
+            int i = 0;
+            for(auto& netIt: network["truthTables"]){
+                for(auto& it: netIt){
                     statePair tempRow;
                     for(auto& in: it["in"]){
                         nodeMap tempNode;
@@ -32,6 +35,8 @@ netStrucArr BooleanNetwork::parseFile(){
                     tempRow.out = it["out"].i();
                     net[i].TT.push_back(tempRow);
                 }
+                net[i].label = netIt.key();
+                i++;
             }
         }
         else if(network.has("expressions")){

@@ -144,13 +144,14 @@
         }
         function deleteTraces() {
             fetch("/BNT/del")
+            document.getElementByID("Traces").innerHTML = "";
         }
         function sendState(){
             let data = "{ \"state\":"
             data += document.getElementById('inputState').value;
             data += "}";
 
-            fetch('/BNT/sendState', {
+            fetch("/BNT/sendState", {
                     method: 'POST',
                     body: data,
                 })
@@ -170,10 +171,21 @@
                 .then( myJson =>
                 {
                     console.log(myJson);
+
                     let Tradot = myJson.traces
                     let Tracontainer = document.getElementById("Traces");
                     let Tradata = vis.parseDOTNetwork(Tradot);
                     let Tranetwork = new vis.Network(Tracontainer, Tradata);
+
+                    let Attdot = myJson.attractors
+                    let Attcontainer = document.getElementById("Attractors");
+                    let Attdata = vis.parseDOTNetwork(Attdot);
+                    let Attnetwork = new vis.Network(Attcontainer, Attdata);
+
+                    let UTradot = myJson.uniqueTraces
+                    let UTracontainer = document.getElementById("UniqueTraces");
+                    let UTradata = vis.parseDOTNetwork(UTradot);
+                    let UTranetwork = new vis.Network(UTracontainer, UTradata);
                 } )
                 .catch( err =>
                 {
