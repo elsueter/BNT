@@ -140,10 +140,10 @@
     </div>
     <script>
         function generate() {
-            fetch("/gen");
+            fetch("/BNT/gen");
         }
         function fetchTraces() {
-            fetch("/fetch")
+            fetch("/BNT/fetch")
                 .then( response =>
                 {
                     if ( response.status !== 200 )
@@ -182,7 +182,7 @@
                 } );
         }
         function deleteTraces() {
-            fetch("/del")
+            fetch("/BNT/del")
             document.getElementByID("Traces").innerHTML = "";
         }
         function sendState(){
@@ -192,7 +192,7 @@
 
             console.log(data);
 
-            fetch("/sendState", {
+            fetch("/BNT/sendState", {
                     method: 'POST',
                     body: data,
                 })
