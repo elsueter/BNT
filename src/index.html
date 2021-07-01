@@ -109,8 +109,8 @@
 </head>
 <body>
     <div class="button-wrapper">
-        <button class="button" onclick="generate()">Generate Traces</button>
-        <button class="button" onclick="fetchTraces()">Fetch Traces</button>
+        <button class="button" onclick="">test</button>
+        <button class="button" onclick="generateTraces()">Generate All Traces</button>
         <button class="button" onclick="deleteTraces()">Delete Traces</button>
         <button class="button" onclick="sendState()">Send State</button>
     </div>
@@ -160,10 +160,7 @@
         let UTracontainer = document.getElementById("UniqueTraces");
         var UTranetwork = new vis.Network(UTracontainer);
 
-        function generate() {
-            fetch("/BNT/gen");
-        }
-        function fetchTraces() {
+        function generateTraces() {
             fetch("/BNT/fetch")
                 .then( response =>
                 {
