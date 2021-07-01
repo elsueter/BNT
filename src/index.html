@@ -126,7 +126,16 @@
         </div>
         <div class="wrapper">
             <h2>Traces</h2>
-            <input type="text" class="stateIn" id="inputState" value="">
+            <select type="text" class="stateIn" id="inputState" value="">
+                <option value="[0, 0, 0]">[0, 0, 0]</option>
+                <option value="[0, 0, 1]">[0, 0, 1]</option>
+                <option value="[0, 1, 0]">[0, 1, 0]</option>
+                <option value="[0, 1, 1]">[0, 1, 1]</option>
+                <option value="[1, 0, 0]">[1, 0, 0]</option>
+                <option value="[1, 0, 1]">[1, 0, 1]</option>
+                <option value="[1, 1, 0]">[1, 1, 0]</option>
+                <option value="[1, 1, 1]">[1, 1, 1]</option>
+            </select>
             <div id="Traces" class="table"></div>
         </div>
         <div class="wrapper">
@@ -139,11 +148,23 @@
         </div>
     </div>
     <script>
+
+        let Tracontainer = document.getElementById("Traces");
+        var Tranetwork = new vis.Network(Tracontainer);
+
+
+        let Attcontainer = document.getElementById("Attractors");
+        var Attnetwork = new vis.Network(Attcontainer);
+
+
+        let UTracontainer = document.getElementById("UniqueTraces");
+        var UTranetwork = new vis.Network(UTracontainer);
+
         function generate() {
-            fetch("/BNT/gen");
+            fetch("/gen");
         }
         function fetchTraces() {
-            fetch("/BNT/fetch")
+            fetch("/fetch")
                 .then( response =>
                 {
                     if ( response.status !== 200 )
@@ -161,20 +182,17 @@
                 {
                     console.log(myJson);
 
-                    let Tradot = myJson.traces
-                    let Tracontainer = document.getElementById("Traces");
+                    let Tradot = myJson.traces;
                     let Tradata = vis.parseDOTNetwork(Tradot);
-                    let Tranetwork = new vis.Network(Tracontainer, Tradata);
+                    Tranetwork.setData(Tradata);
 
                     let Attdot = myJson.attractors
-                    let Attcontainer = document.getElementById("Attractors");
                     let Attdata = vis.parseDOTNetwork(Attdot);
-                    let Attnetwork = new vis.Network(Attcontainer, Attdata);
+                    Attnetwork.setData(Attdata);
 
                     let UTradot = myJson.uniqueTraces
-                    let UTracontainer = document.getElementById("UniqueTraces");
                     let UTradata = vis.parseDOTNetwork(UTradot);
-                    let UTranetwork = new vis.Network(UTracontainer, UTradata);
+                    UTranetwork.setData(UTradata);
                 } )
                 .catch( err =>
                 {
@@ -182,8 +200,13 @@
                 } );
         }
         function deleteTraces() {
-            fetch("/BNT/del")
-            document.getElementByID("Traces").innerHTML = "";
+            fetch("/del")
+
+            Tranetwork.setData();
+
+            Attnetwork.setData();
+
+            UTranetwork.setData();
         }
         function sendState(){
             let data = "{ \"state\":"
@@ -192,7 +215,7 @@
 
             console.log(data);
 
-            fetch("/BNT/sendState", {
+            fetch("/sendState", {
                     method: 'POST',
                     body: data,
                 })
@@ -213,20 +236,17 @@
                 {
                     console.log(myJson);
 
-                    let Tradot = myJson.traces
-                    let Tracontainer = document.getElementById("Traces");
+                    let Tradot = myJson.traces;
                     let Tradata = vis.parseDOTNetwork(Tradot);
-                    let Tranetwork = new vis.Network(Tracontainer, Tradata);
+                    Tranetwork.setData(Tradata);
 
                     let Attdot = myJson.attractors
-                    let Attcontainer = document.getElementById("Attractors");
                     let Attdata = vis.parseDOTNetwork(Attdot);
-                    let Attnetwork = new vis.Network(Attcontainer, Attdata);
+                    Attnetwork.setData(Attdata);
 
                     let UTradot = myJson.uniqueTraces
-                    let UTracontainer = document.getElementById("UniqueTraces");
                     let UTradata = vis.parseDOTNetwork(UTradot);
-                    let UTranetwork = new vis.Network(UTracontainer, UTradata);
+                    UTranetwork.setData(UTradata);
                 } )
                 .catch( err =>
                 {
