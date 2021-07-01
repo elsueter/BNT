@@ -1,6 +1,27 @@
 #include <BNT/booleanNetwork.h>
 
+// Utils ------------------------------------------------------------------------------------------------------------
+
+std::vector<int> toBin(int n, int len)
+{
+    std::vector<int> out(len, 0);
+
+    while (n > 0) {
+        out[len-1] = n % 2;
+        n = n >> 1;
+        len--;
+    }
+
+	return out;
+}
+
+// Boolnet ------------------------------------------------------------------------------------------------------------
+
 using namespace BooleanNetwork;
+
+nodeNetwork::nodeNetwork(netStruc in){
+    nodes = in;
+}
 
 void nodeNetwork::iterateAll(state in){
     //Iterates over every node in the network, generated the future state and steps forwards
@@ -8,10 +29,6 @@ void nodeNetwork::iterateAll(state in){
         it.check(in);
         it.update();
     }
-}
-
-nodeNetwork::nodeNetwork(netStruc in){
-    nodes = in;
 }
 
 void nodeNetwork::setState(state start){
@@ -26,10 +43,27 @@ void nodeNetwork::synchronusIterate(){
     bool attractorHit = false;
     while(!attractorHit){
         iterateAll(getState());
-        if(vectorContains(trace, getState())){
+
+        int index = vectorContains(trace, getState());
+        if(index > -1){
             attractorHit = true;
+            sequence temp;
+            temp.reserve(trace.size()-index);
+            for(int i = index; i < trace.size(); i++){
+                temp.push_back(trace[i]);
+            }
+            if(!vectorArrEquals(attractors, temp)){
+                attractors.push_back(temp);
+            }
         }
         trace.push_back(getState());
+    }
+    int index = vectorArrContains(uniqueTraces, trace);
+    if(index == -1){
+        uniqueTraces.push_back(trace);
+    }else if(index > -1){
+        uniqueTraces[index].clear();
+        uniqueTraces[index] = trace;
     }
 }
 
@@ -47,6 +81,12 @@ void nodeNetwork::synchronusIterate(crow::json::rvalue startJSON){
     synchronusIterate(start);
 }
 
+void nodeNetwork::generateStateGraph(){
+    for(int i = 0; i < 1 << nodes.size(); i++){
+        synchronusIterate(toBin(i, nodes.size()));
+    }
+}
+
 void nodeNetwork::clear(){
     trace.clear();
     attractors.clear();
@@ -61,7 +101,11 @@ state nodeNetwork::getState(){
     return out;
 }
 
-std::string nodeNetwork::getTrace(){
+sequence nodeNetwork::getTrace(){
+    return trace;
+}
+
+std::string nodeNetwork::getTraceS(){
     std::string out = "dinetwork {node[shape=circle];";
     for(int i = 0; i < trace.size(); i++){
         out += '"';
@@ -82,6 +126,60 @@ std::vector<sequence> nodeNetwork::getAttractors(){
     return attractors;
 }
 
+std::string nodeNetwork::getAttractorsS(){
+    std::string out = "dinetwork {node[shape=circle];";
+    for(auto it: attractors){
+        for(int i = 0; i < it.size(); i++){
+            out += '"';
+            for(auto& num: it[i]){
+                out += std::to_string(num);
+            }
+            out += '"';
+            out += "->";
+        }
+        out += '"';
+        for(auto& num: it[0]){
+            out += std::to_string(num);
+        }
+        out += '"';
+        out += ';';
+    }
+    out += "}";
+    return out;
+}
+
 std::vector<sequence> nodeNetwork::getUniqueTraces(){
     return uniqueTraces;
+}
+
+std::string nodeNetwork::getUniqueTracesS(){
+    std::string out = "dinetwork {node[shape=circle];";
+    for(auto it: uniqueTraces){
+        for(int i = 0; i < it.size(); i++){
+            out += '"';
+            for(auto& num: it[i]){
+                out += std::to_string(num);
+            }
+            out += '"';
+            if(i != it.size()-1){
+                out += "->";
+            }
+        }
+        out += ';';
+    }
+    out += "}";
+    return out;
+}
+
+std::string nodeNetwork::getNodesS(){
+    std::string out = "dinetwork {node[shape=circle];";
+    for(auto it: nodes){
+        out += '"';
+        out += it.label;
+        out += '"';
+        
+    }
+    out += ';';
+    out += "}";
+    return out;
 }
