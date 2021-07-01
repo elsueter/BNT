@@ -13,7 +13,7 @@
     }
 
     text{
-        color:#292929;
+        color:white;
     }
 
     .content {
@@ -113,7 +113,7 @@
 </head>
 <body>
     <div class="button-wrapper">
-        <button class="button" onclick="">test</button>
+        <button class="button" onclick="">Generate Traces</button>
         <button class="button" onclick="generateTraces()">Generate All Traces</button>
         <button class="button" onclick="deleteTraces()">Delete Traces</button>
         <button class="button" onclick="sendState()">Send State</button>
@@ -147,8 +147,8 @@
             <div id="Attractors" class="table"></div>
         </div>
         <div class="wrapper">
-            <h2>Unique Traces</h2>
-            <div id="StateGraph" class="table"></div>
+            <h2>State Graph</h2>
+            <div id="UniqueTraces" class="table"></div>
         </div>
     </div>
     <script>
