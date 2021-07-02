@@ -153,7 +153,6 @@
     </div>
     <script>
         getNetwork();
-        deleteTraces();
 
         let TTcontainer = document.getElementById("TruthTable");
         var TTnetwork = new vis.Network(TTcontainer);
@@ -166,6 +165,8 @@
 
         let UTracontainer = document.getElementById("UniqueTraces");
         var UTranetwork = new vis.Network(UTracontainer);
+        
+        deleteTraces();
 
         function getNetwork(){
             fetch("/BNT/get")
