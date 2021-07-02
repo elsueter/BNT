@@ -80,20 +80,20 @@ int main(){
     });
     
     //Other route lambda function (to be updated)
-    CROW_ROUTE(app, "/get")
+    CROW_ROUTE(app, "/getNet")
     ([&savedNetworks]{
         crow::json::wvalue x;
         x["exp"] = savedNetworks[2].getNodesExpS();
         return crow::response(x);
     });
     
-    CROW_ROUTE(app, "/del")
+    CROW_ROUTE(app, "/clearNet")
     ([&savedNetworks]{
         savedNetworks[2].clear();
         return crow::response(200);
     });
 
-    CROW_ROUTE(app, "/fetch")
+    CROW_ROUTE(app, "/getSG")
     ([&savedNetworks]{ 
         crow::json::wvalue x;
         savedNetworks[2].generateStateGraph();
@@ -103,7 +103,7 @@ int main(){
         return crow::response(x);
     });
 
-    CROW_ROUTE(app, "/sendState")
+    CROW_ROUTE(app, "/sendS")
     .methods("POST"_method)
     ([&savedNetworks](const crow::request& req){
         auto x = crow::json::load(req.body);
