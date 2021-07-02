@@ -55,12 +55,15 @@ int main(){
         end = clock();
         cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
         std::cout<<cpu_time_used<<" s"<<std::endl;
-        std::cout<<std::endl;
+        std::cout<<std::endl<<"UniqueTraces:"<<std::endl;
         printSequenceArr(it.getUniqueTraces());
         std::cout<<std::endl;
+        std::cout<<it.getUniqueTracesS()<<std::endl<<std::endl<<"Attractors:"<<std::endl;
         printSequenceArr(it.getAttractors());
         std::cout<<std::endl;
-        std::cout<<it.getNodesS()<<std::endl;
+        std::cout<<it.getAttractorsS()<<std::endl<<std::endl<<"Node Stuff:"<<std::endl;
+        std::cout<<it.getNodesS()<<std::endl<<std::endl;
+        std::cout<<it.getNodesExpS()<<std::endl;
     }*/
     
     
@@ -77,9 +80,11 @@ int main(){
     });
     
     //Other route lambda function (to be updated)
-    CROW_ROUTE(app, "/gen")
-    ([]{
-        return crow::response(200);
+    CROW_ROUTE(app, "/get")
+    ([&savedNetworks]{
+        crow::json::wvalue x;
+        x["exp"] = savedNetworks[2].getNodesExpS();
+        return crow::response(x);
     });
     
     CROW_ROUTE(app, "/del")
@@ -95,7 +100,7 @@ int main(){
         x["traces"] = savedNetworks[2].getTraceS();
         x["attractors"] = savedNetworks[2].getAttractorsS();
         x["uniqueTraces"] = savedNetworks[2].getUniqueTracesS();
-        return x;
+        return crow::response(x);
     });
 
     CROW_ROUTE(app, "/sendState")

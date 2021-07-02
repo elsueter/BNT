@@ -2,7 +2,7 @@
     "NetA": {
         "netExp":[],
 
-        "expressions": ["!B", "A"],
+        "expressions": ["A = !B", "B = A"],
 
         "truthTables":{
             
@@ -20,7 +20,7 @@
     },
 
     "NetB": {
-        "expressions": ["!B & C", "C", "A"],
+        "expressions": ["A = !B & C", "B = C", "C = A"],
 
         "truthTables":{
             
@@ -45,7 +45,7 @@
     },
 
     "NetC": {
-        "expressions": ["C & B", "!C", "!A"],
+        "expressions": ["A = C & B", "B = !C", "C = !A"],
 
         "truthTables":{
             

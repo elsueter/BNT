@@ -60,8 +60,7 @@ int vectorContains(std::vector<T> arr, T in){
 }
 
 template<typename T>
-bool vectorPermComparison(std::vector<T> seq, std::vector<T> in){
-
+bool vecEquals(std::vector<T> seq, std::vector<T> in){
 	for(int i = 0; i < seq.size(); i++){
 		if(seq == in){
 			return true;
@@ -76,20 +75,22 @@ bool vectorPermComparison(std::vector<T> seq, std::vector<T> in){
 }
 
 template<typename T>
-bool vectorArrEquals(std::vector<std::vector<T> > arr, std::vector<T> in){
+bool vecArrContains(std::vector<std::vector<T> > arr, std::vector<T> in){
     for(auto it: arr){
-		if(vectorPermComparison(it, in)){
+		if(vecEquals(it, in)){
 			return true;
 		}
     }
 	return false;
 }
 
+#include <iostream>
+
 template<typename T>
-int vectorArrContains(std::vector<std::vector<T> > arr, std::vector<T> in){
+bool vectorUniqueAdd(std::vector<std::vector<T> > &arr, std::vector<T> &in){
 	for(int i = 0; i < arr.size(); i++){
-		auto one = arr[i];
-		auto two = in;
+		std::vector<T> one = arr[i];
+		std::vector<T> two = in;
 
 		one.pop_back();
 		two.pop_back();
@@ -102,14 +103,16 @@ int vectorArrContains(std::vector<std::vector<T> > arr, std::vector<T> in){
 			two.erase(two.begin(), two.begin()-diff);
 		}
 
-		if(vectorPermComparison(one, two)){
+		if(vecEquals(one, two)){
 			if(diff < 0){
-				return i;
+				arr[i] = in;
+				return true;
 			}
-			return -2;
+			return false;
 		}
 	}
-	return -1;
+	arr.push_back(in);
+	return true;
 }
 
 netStrucArr parseFile();
@@ -149,7 +152,9 @@ public:
 	std::string getAttractorsS();
 	std::vector<sequence> getUniqueTraces();
 	std::string getUniqueTracesS();
+
 	std::string getNodesS();
+	std::string getNodesExpS();
 };
 
 }

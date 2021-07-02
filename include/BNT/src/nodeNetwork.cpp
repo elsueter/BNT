@@ -52,19 +52,13 @@ void nodeNetwork::synchronusIterate(){
             for(int i = index; i < trace.size(); i++){
                 temp.push_back(trace[i]);
             }
-            if(!vectorArrEquals(attractors, temp)){
+            if(!vecArrContains(attractors, temp)){
                 attractors.push_back(temp);
             }
         }
         trace.push_back(getState());
     }
-    int index = vectorArrContains(uniqueTraces, trace);
-    if(index == -1){
-        uniqueTraces.push_back(trace);
-    }else if(index > -1){
-        uniqueTraces[index].clear();
-        uniqueTraces[index] = trace;
-    }
+    vectorUniqueAdd(uniqueTraces, trace);
 }
 
 void nodeNetwork::synchronusIterate(state start){
@@ -118,6 +112,12 @@ std::string nodeNetwork::getTraceS(){
         }
     }
     out += ';';
+    out += '"';
+    for(auto& num: trace[0]){
+        out += std::to_string(num);
+    }
+    out += '"';
+    out += "[\nfontcolor=white,\ncolor=red,\n]";
     out += "}";
     return out;
 }
@@ -153,9 +153,20 @@ std::vector<sequence> nodeNetwork::getUniqueTraces(){
 }
 
 std::string nodeNetwork::getUniqueTracesS(){
+    sequence used;
     std::string out = "dinetwork {node[shape=circle];";
     for(auto it: uniqueTraces){
         for(int i = 0; i < it.size(); i++){
+            if(vectorContains(used, it[i]) > -1){
+                out += '"';
+                for(auto& num: it[i]){
+                    out += std::to_string(num);
+                }
+                out += '"';
+                break;
+            }else{
+                used.push_back(it[i]);
+            }
             out += '"';
             for(auto& num: it[i]){
                 out += std::to_string(num);
@@ -177,9 +188,17 @@ std::string nodeNetwork::getNodesS(){
         out += '"';
         out += it.label;
         out += '"';
-        
     }
     out += ';';
     out += "}";
+    return out;
+}
+
+std::string nodeNetwork::getNodesExpS(){
+    std::string out = "";
+    for(auto it: nodes){
+        out += it.exp;
+        out += "\n";
+    }
     return out;
 }
