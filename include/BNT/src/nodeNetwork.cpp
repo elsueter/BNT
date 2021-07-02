@@ -100,7 +100,7 @@ sequence nodeNetwork::getTrace(){
 }
 
 std::string nodeNetwork::getTraceS(){
-    std::string out = "dinetwork {node[shape=circle];";
+    std::string out = "dinetwork {node[shape=circle] \n  edge [length=100, color=white, fontcolor=black];";
     for(int i = 0; i < trace.size(); i++){
         out += '"';
         for(auto& num: trace[i]){
@@ -127,7 +127,7 @@ std::vector<sequence> nodeNetwork::getAttractors(){
 }
 
 std::string nodeNetwork::getAttractorsS(){
-    std::string out = "dinetwork {node[shape=circle];";
+    std::string out = "dinetwork {node[shape=circle] \n  edge [length=100, color=white, fontcolor=black];";
     for(auto it: attractors){
         for(int i = 0; i < it.size(); i++){
             out += '"';
@@ -154,7 +154,7 @@ std::vector<sequence> nodeNetwork::getUniqueTraces(){
 
 std::string nodeNetwork::getUniqueTracesS(){
     sequence used;
-    std::string out = "dinetwork {node[shape=circle];";
+    std::string out = "dinetwork {node[shape=circle] \n  edge [length=100, color=white, fontcolor=black];";
     for(auto it: uniqueTraces){
         for(int i = 0; i < it.size(); i++){
             if(vectorContains(used, it[i]) > -1){
@@ -183,7 +183,7 @@ std::string nodeNetwork::getUniqueTracesS(){
 }
 
 std::string nodeNetwork::getNodesS(){
-    std::string out = "dinetwork {node[shape=circle];";
+    std::string out = "dinetwork {node[shape=circle] \n  edge [length=100, color=white, fontcolor=black];";
     for(auto it: nodes){
         out += '"';
         out += it.label;

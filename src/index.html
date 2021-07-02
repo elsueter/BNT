@@ -166,7 +166,7 @@
         var UTranetwork = new vis.Network(UTracontainer);
 
         function getNetwork(){
-            fetch("/get")
+            fetch("/BNT/get")
                 .then( response =>
                 {
                     if ( response.status !== 200 )
@@ -193,7 +193,7 @@
         }
 
         function generateTraces() {
-            fetch("/fetch")
+            fetch("/BNT/fetch")
                 .then( response =>
                 {
                     if ( response.status !== 200 )
@@ -229,7 +229,7 @@
                 } );
         }
         function deleteTraces() {
-            fetch("/del")
+            fetch("/BNT/del")
 
             Tranetwork.setData();
 
@@ -244,7 +244,7 @@
 
             console.log(data);
 
-            fetch("/sendState", {
+            fetch("/BNT/sendState", {
                     method: 'POST',
                     body: data,
                 })
