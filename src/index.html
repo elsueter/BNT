@@ -169,7 +169,7 @@
         deleteTraces();
 
         function getNetwork(){
-            fetch("/getNet")
+            fetch("/BNT/getNet")
                 .then( response =>
                 {
                     if ( response.status !== 200 )
@@ -196,7 +196,7 @@
         }
 
         function generateTraces() {
-            fetch("/getSG")
+            fetch("/BNT/getSG")
                 .then( response =>
                 {
                     if ( response.status !== 200 )
@@ -232,7 +232,7 @@
                 } );
         }
         function deleteTraces() {
-            fetch("/clearNet")
+            fetch("/BNT/clearNet")
 
             Tranetwork.setData();
 
@@ -247,7 +247,7 @@
 
             console.log(data);
 
-            fetch("/sendS", {
+            fetch("/BNT/sendS", {
                     method: 'POST',
                     body: data,
                 })
