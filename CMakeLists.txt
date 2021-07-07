@@ -6,11 +6,15 @@ project(BooleanNetworkWebApp)
 #set CMake Cpp standard
 set(CMAKE_CXX_STANDARD 14)
 
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/webServer)
+
 #-----------------------------------------------------------------------------------------
 
 find_package(Threads)
 find_package(ZLIB)
-find_package(OpenSSL REQUIRED)
+find_package(OpenSSL)
 
 if(OPENSSL_FOUND)
     include_directories(${OPENSSL_INCLUDE_DIR})
@@ -49,16 +53,15 @@ include_directories(libs)
 
 target_link_libraries(BNT PUBLIC crow)
 target_link_libraries(BNT PUBLIC boolean_Network)
-target_link_libraries(BNT PUBLIC OpenSSL::SSL OpenSSL::Crypto)
 
 #-----------------------------------------------------------------------------------------
 
-file(COPY src/index.html DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY src/webApp/index.html DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/webApp)
+file(COPY src/webApp/index.css DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/webApp)
+
 
 file(COPY src/shellScripts/deploy.sh DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-
 file(COPY src/shellScripts/restart.sh DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-
 file(COPY src/shellScripts/kill.sh DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
-file(COPY src/savedNetworks.json DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY src/savedNetworks.json DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/networks)

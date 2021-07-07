@@ -49,7 +49,7 @@ int main(){
         savedNetworks.push_back(BooleanNetwork::nodeNetwork(it));
     }
 
-    /*for(auto it: savedNetworks){
+    for(auto it: savedNetworks){
         start = clock();
         it.generateStateGraph();
         end = clock();
@@ -64,9 +64,9 @@ int main(){
         std::cout<<it.getAttractorsS()<<std::endl<<std::endl<<"Node Stuff:"<<std::endl;
         std::cout<<it.getNodesS()<<std::endl<<std::endl;
         std::cout<<it.getNodesExpS()<<std::endl;
-    }*/
+    }
     
-    
+    /*
     //Crow app and routing lambda functions (Web Server)
     crow::SimpleApp app;
 
@@ -74,9 +74,26 @@ int main(){
     crow::mustache::set_base(".");
     CROW_ROUTE(app,"/")
     ([]{
-        crow::mustache::context ctx;
-        auto page = crow::mustache::load("index.html");
+        auto page = crow::mustache::load("webApp/index.html");
         return page.render();
+    });
+
+    CROW_ROUTE(app,"/css")
+    ([](const crow::request&, crow::response& res){
+        res.set_static_file_info("webApp/index.css");
+        res.end();
+    });
+
+    CROW_ROUTE(app,"/js")
+    ([](const crow::request&, crow::response& res){
+        res.set_static_file_info("webApp/index.js");
+        res.end();
+    });
+
+    CROW_ROUTE(app,"/visjs")
+    ([](const crow::request&, crow::response& res){
+        res.set_static_file_info("webApp/vis-network.min.js");
+        res.end();
     });
     
     //Other route lambda function (to be updated)
@@ -117,6 +134,6 @@ int main(){
         return crow::response(y);
     });
 
-    app.port(18080).multithreaded().run();
+    app.port(18080).multithreaded().run();*/
     return 0;
 }

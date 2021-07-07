@@ -7,7 +7,7 @@ using namespace BooleanNetwork;
 netStrucArr BooleanNetwork::parseFile(){
     netStrucArr out;
 
-    std::ifstream ifs("savedNetworks.json");
+    std::ifstream ifs("networks/savedNetworks.json");
     std::string content( (std::istreambuf_iterator<char>(ifs) ),
                        (std::istreambuf_iterator<char>()    ) );
 
