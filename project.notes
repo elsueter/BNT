@@ -1,0 +1,16 @@
+TODO:
+[ ] Comment Code
+[ ] Finish NodeStruc output (interaction graph)
+[ ] Expression Parser
+[ ] Front end swapping between networks
+[ ] Front end adjusting and adding networks
+[ ] Output analysis file from network (DOT language output)
+[ ] GraphVis / Cgraph implementation
+[ ] Async network flow structure allowence (implement network conditions)
+[ ] Front end iterate through network states visually
+
+Additional Stuff:
+[ ] Performance / Memory optimisations (std::vector -> pointers etc...)
+[ ] Session keys for website
+[ ] Github releases / actions
+[ ] Project end release format (including platform executables)
