@@ -1,2 +1,3 @@
 make
-./webServer/BNT > webServer/BNT.log 2>&1 &
+cd BNT
+./BNT > BNT.log 2>&1 &

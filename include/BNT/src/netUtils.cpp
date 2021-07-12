@@ -4,10 +4,10 @@ using namespace BooleanNetwork;
 
 #include <iostream>
 
-netStrucArr BooleanNetwork::parseFile(){
+netStrucArr BooleanNetwork::parseFile(std::string path){
     netStrucArr out;
 
-    std::ifstream ifs("networks/savedNetworks.json");
+    std::ifstream ifs(path);
     std::string content( (std::istreambuf_iterator<char>(ifs) ),
                        (std::istreambuf_iterator<char>()    ) );
 
