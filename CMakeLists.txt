@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD 14)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/webServer)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/BNT)
 
 #-----------------------------------------------------------------------------------------
 
@@ -56,12 +56,11 @@ target_link_libraries(BNT PUBLIC boolean_Network)
 
 #-----------------------------------------------------------------------------------------
 
-file(COPY src/webApp/index.html DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/webApp)
-file(COPY src/webApp/index.css DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/webApp)
+file(COPY src/webApp DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/BNT)
 
 
 file(COPY src/shellScripts/deploy.sh DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 file(COPY src/shellScripts/restart.sh DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 file(COPY src/shellScripts/kill.sh DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
-file(COPY src/savedNetworks.json DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/networks)
+file(COPY src/savedNetworks.json DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/BNT/networks)
