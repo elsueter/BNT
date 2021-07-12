@@ -1,8 +1,8 @@
-#define CROW_MAIN
-
 #include <crow/app.h>
 #include <crow/mustache.h>
 #include <BNT/booleanNetwork.h>
+
+#define CROW_MAIN
 
 // Printing (Temp) -----------------------------------------------
 
@@ -37,36 +37,22 @@ void printSequenceArr(std::vector<BooleanNetwork::sequence> in){
 
 //Main -----------------------------------------------
 
-#include <time.h>
+inline bool exists_test3 (const std::string& name) {
+  struct stat buffer;   
+  return (stat (name.c_str(), &buffer) == 0); 
+}
 
 int main(){
+
     clock_t start, end;
     double cpu_time_used;
 
-    BooleanNetwork::netStrucArr savedFiles = BooleanNetwork::parseFile();
+    BooleanNetwork::netStrucArr savedFiles = BooleanNetwork::parseFile("networks/savedNetworks.json");
     std::vector<BooleanNetwork::nodeNetwork> savedNetworks;
     for(auto& it: savedFiles){
         savedNetworks.push_back(BooleanNetwork::nodeNetwork(it));
     }
-
-    for(auto it: savedNetworks){
-        start = clock();
-        it.generateStateGraph();
-        end = clock();
-        cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
-        std::cout<<cpu_time_used<<" s"<<std::endl;
-        std::cout<<std::endl<<"UniqueTraces:"<<std::endl;
-        printSequenceArr(it.getUniqueTraces());
-        std::cout<<std::endl;
-        std::cout<<it.getUniqueTracesS()<<std::endl<<std::endl<<"Attractors:"<<std::endl;
-        printSequenceArr(it.getAttractors());
-        std::cout<<std::endl;
-        std::cout<<it.getAttractorsS()<<std::endl<<std::endl<<"Node Stuff:"<<std::endl;
-        std::cout<<it.getNodesS()<<std::endl<<std::endl;
-        std::cout<<it.getNodesExpS()<<std::endl;
-    }
     
-    /*
     //Crow app and routing lambda functions (Web Server)
     crow::SimpleApp app;
 
@@ -76,24 +62,6 @@ int main(){
     ([]{
         auto page = crow::mustache::load("webApp/index.html");
         return page.render();
-    });
-
-    CROW_ROUTE(app,"/css")
-    ([](const crow::request&, crow::response& res){
-        res.set_static_file_info("webApp/index.css");
-        res.end();
-    });
-
-    CROW_ROUTE(app,"/js")
-    ([](const crow::request&, crow::response& res){
-        res.set_static_file_info("webApp/index.js");
-        res.end();
-    });
-
-    CROW_ROUTE(app,"/visjs")
-    ([](const crow::request&, crow::response& res){
-        res.set_static_file_info("webApp/vis-network.min.js");
-        res.end();
     });
     
     //Other route lambda function (to be updated)
@@ -134,6 +102,13 @@ int main(){
         return crow::response(y);
     });
 
-    app.port(18080).multithreaded().run();*/
+    //Catchall route for resources
+    CROW_ROUTE(app,"/<path>")
+    ([](const crow::request& req, crow::response& res, std::string in){
+        res.set_static_file_info("webApp/" + in);
+        res.end();
+    });
+
+    app.port(18080).multithreaded().run();
     return 0;
 }
