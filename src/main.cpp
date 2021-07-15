@@ -37,20 +37,21 @@ void printSequenceArr(std::vector<BooleanNetwork::sequence> in){
 
 //Main -----------------------------------------------
 
-inline bool exists_test3 (const std::string& name) {
-  struct stat buffer;   
-  return (stat (name.c_str(), &buffer) == 0); 
-}
-
 int main(){
-
-    clock_t start, end;
-    double cpu_time_used;
 
     BooleanNetwork::netStrucArr savedFiles = BooleanNetwork::parseFile("networks/savedNetworks.json");
     std::vector<BooleanNetwork::nodeNetwork> savedNetworks;
     for(auto& it: savedFiles){
         savedNetworks.push_back(BooleanNetwork::nodeNetwork(it));
+    }
+
+    for(auto &it: savedNetworks){
+        it.generateStateGraph();
+        std::cout<<"Attractors:\n"<<it.getAttractorsS()<<"\n\n";
+        std::cout<<"UniqueTraces:\n"<<it.getUniqueTracesS()<<"\n\n";
+        std::cout<<"Nodes:\n"<<it.getNodesS()<<"\n\n";
+        std::cout<<"Expressions:\n"<<it.getNodesExpS()<<"\n\n";
+        std::cout<<"\n";
     }
     
     //Crow app and routing lambda functions (Web Server)

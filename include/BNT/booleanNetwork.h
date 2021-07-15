@@ -146,11 +146,8 @@ public:
 
 	state getState();
 
-	sequence getTrace();
 	std::string getTraceS();
-	std::vector<sequence> getAttractors();
 	std::string getAttractorsS();
-	std::vector<sequence> getUniqueTraces();
 	std::string getUniqueTracesS();
 
 	std::string getNodesS();

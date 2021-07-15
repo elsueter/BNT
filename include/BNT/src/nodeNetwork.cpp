@@ -95,10 +95,6 @@ state nodeNetwork::getState(){
     return out;
 }
 
-sequence nodeNetwork::getTrace(){
-    return trace;
-}
-
 std::string nodeNetwork::getTraceS(){
     std::string out = "dinetwork {node[shape=circle] \n  edge [length=100, color=white, fontcolor=black];";
     for(int i = 0; i < trace.size(); i++){
@@ -122,10 +118,6 @@ std::string nodeNetwork::getTraceS(){
     return out;
 }
 
-std::vector<sequence> nodeNetwork::getAttractors(){
-    return attractors;
-}
-
 std::string nodeNetwork::getAttractorsS(){
     std::string out = "dinetwork {node[shape=circle] \n  edge [length=100, color=white, fontcolor=black];";
     for(auto it: attractors){
@@ -146,10 +138,6 @@ std::string nodeNetwork::getAttractorsS(){
     }
     out += "}";
     return out;
-}
-
-std::vector<sequence> nodeNetwork::getUniqueTraces(){
-    return uniqueTraces;
 }
 
 std::string nodeNetwork::getUniqueTracesS(){
