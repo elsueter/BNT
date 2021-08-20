@@ -2,9 +2,9 @@
 
 // Utils ------------------------------------------------------------------------------------------------------------
 
-std::vector<int> toBin(int n, int len)
+std::vector<bool> toBin(int n, int len)
 {
-    std::vector<int> out(len, 0);
+    std::vector<bool> out(len, 0);
 
     while (n > 0) {
         out[len-1] = n % 2;
@@ -99,8 +99,8 @@ std::string nodeNetwork::getTraceS(){
     std::string out = "dinetwork {node[shape=circle] \n  edge [length=100, color=white, fontcolor=black];";
     for(int i = 0; i < trace.size(); i++){
         out += '"';
-        for(auto& num: trace[i]){
-            out += std::to_string(num);
+        for(int j = 0; j < trace[i].size(); j++){
+            out += std::to_string(trace[i][j]);
         }
         out += '"';
         if(i != trace.size()-1){
@@ -109,8 +109,8 @@ std::string nodeNetwork::getTraceS(){
     }
     out += ';';
     out += '"';
-    for(auto& num: trace[0]){
-        out += std::to_string(num);
+    for(int i = 0; i < trace[0].size(); i++){
+        out += std::to_string(trace[0][i]);
     }
     out += '"';
     out += "[\nfontcolor=white,\ncolor=red,\n]";
@@ -123,15 +123,15 @@ std::string nodeNetwork::getAttractorsS(){
     for(auto it: attractors){
         for(int i = 0; i < it.size(); i++){
             out += '"';
-            for(auto& num: it[i]){
-                out += std::to_string(num);
+            for(int j = 0; j < it[i].size(); j++){
+                out += std::to_string(it[i][j]);
             }
             out += '"';
             out += "->";
         }
         out += '"';
-        for(auto& num: it[0]){
-            out += std::to_string(num);
+        for(int i = 0; i < it[0].size(); i++){
+            out += std::to_string(it[0][i]);
         }
         out += '"';
         out += ';';
@@ -147,8 +147,8 @@ std::string nodeNetwork::getUniqueTracesS(){
         for(int i = 0; i < it.size(); i++){
             if(vectorContains(used, it[i]) > -1){
                 out += '"';
-                for(auto& num: it[i]){
-                    out += std::to_string(num);
+                for(int j = 0; j < it[i].size(); j++){
+                    out += std::to_string(it[i][j]);
                 }
                 out += '"';
                 break;
@@ -156,8 +156,8 @@ std::string nodeNetwork::getUniqueTracesS(){
                 used.push_back(it[i]);
             }
             out += '"';
-            for(auto& num: it[i]){
-                out += std::to_string(num);
+            for(int j = 0; j < it[i].size(); j++){
+                out += std::to_string(it[i][j]);
             }
             out += '"';
             if(i != it.size()-1){

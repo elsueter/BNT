@@ -14,7 +14,7 @@
 
 namespace BooleanNetwork{
 
-typedef std::vector<int> state;
+typedef std::vector<bool> state;
 typedef std::vector<state> sequence;
 
 struct nodeMap{
