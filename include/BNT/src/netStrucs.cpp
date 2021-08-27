@@ -11,7 +11,7 @@ bool statePair::operator ==(state input){
     return true;
 }
 
-void node::check(state in){
+void node::getNext(state in){
     for(auto& it: TT){
         if(it == in){
             next = it.out;

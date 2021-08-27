@@ -14,6 +14,9 @@ var UTranetwork = new vis.Network(UTracontainer);
 
 deleteTraces();
 
+let TTdata = vis.parseDOTNetwork("dinetwork {node[shape=circle] edge [length=100, color=white, fontcolor=black];B->A; C->A; C->B[arrowhead=box]; A->C[arrowhead=box]}")
+TTnetwork.setData(TTdata);
+
 function getNetwork(){
     fetch("/getNet")
         .then( response =>

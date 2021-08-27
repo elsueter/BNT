@@ -26,7 +26,7 @@ nodeNetwork::nodeNetwork(netStruc in){
 void nodeNetwork::iterateAll(state in){
     //Iterates over every node in the network, generated the future state and steps forwards
     for(auto& it: nodes){
-        it.check(in);
+        it.getNext(in);
         it.update();
     }
 }

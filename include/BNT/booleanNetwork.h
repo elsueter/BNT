@@ -6,7 +6,7 @@
 
 #include <crow/json.h>
 #include <vector>
-//#include <thread>
+#include <thread>
 #include <string>
 #include <fstream> //File operations (read/write)
 
@@ -36,7 +36,7 @@ struct node {
 	bool curr;
 	bool next;
 
-	void check(state);
+	void getNext(state);
 	void update();
 };
 
@@ -141,6 +141,7 @@ public:
 	void synchronusIterate(crow::json::rvalue start);
 
 	void generateStateGraph();
+	void generateStateGraphThreaded();
 
 	void clear();
 

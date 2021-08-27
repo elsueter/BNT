@@ -44,15 +44,6 @@ int main(){
     for(auto& it: savedFiles){
         savedNetworks.push_back(BooleanNetwork::nodeNetwork(it));
     }
-
-    for(auto &it: savedNetworks){
-        it.generateStateGraph();
-        std::cout<<"Attractors:\n"<<it.getAttractorsS()<<"\n\n";
-        std::cout<<"UniqueTraces:\n"<<it.getUniqueTracesS()<<"\n\n";
-        std::cout<<"Nodes:\n"<<it.getNodesS()<<"\n\n";
-        std::cout<<"Expressions:\n"<<it.getNodesExpS()<<"\n\n";
-        std::cout<<"\n";
-    }
     
     //Crow app and routing lambda functions (Web Server)
     crow::SimpleApp app;
