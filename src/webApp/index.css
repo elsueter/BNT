@@ -46,10 +46,11 @@ h2{
     padding: 10px;
     width: 600px;
     height: 400px;
-    border: 1px solid white;
+    border: 1px solid black;
     border-radius: 6px;
     overflow: hidden;
     margin: 15px;
+    background-color: white;
 }
 
 .intTable{
@@ -57,11 +58,12 @@ h2{
     padding: 10px;
     width: 400px;
     height: 400px;
-    border: 1px solid white;
+    border: 1px solid black;
     border-radius: 6px;
     overflow: hidden;
     margin: 15px;
     display: inline-block;
+    background-color: white;
 }
 
 .netTT {
@@ -97,4 +99,15 @@ h2{
     justify-content: center;
     align-items: center;  
     flex-wrap: wrap;
+}
+
+a{
+    color:white;
+    margin:0;
+    display:flex;
+}
+
+a:hover{
+    color:red;
+    text-decoration: underline;
 }

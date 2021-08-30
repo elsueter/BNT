@@ -3,19 +3,36 @@ getNetwork();
 let TTcontainer = document.getElementById("TruthTable");
 var TTnetwork = new vis.Network(TTcontainer);
 
+TTnetwork.on("afterDrawing", function (ctx) {
+    var dataURL = ctx.canvas.toDataURL();
+    document.getElementById('TTImg').href = dataURL;
+});
+
 let Tracontainer = document.getElementById("Traces");
 var Tranetwork = new vis.Network(Tracontainer);
+
+Tranetwork.on("afterDrawing", function (ctx) {
+    var dataURL = ctx.canvas.toDataURL();
+    document.getElementById('TraImg').href = dataURL;
+});
 
 let Attcontainer = document.getElementById("Attractors");
 var Attnetwork = new vis.Network(Attcontainer);
 
+Attnetwork.on("afterDrawing", function (ctx) {
+    var dataURL = ctx.canvas.toDataURL();
+    document.getElementById('AttImg').href = dataURL;
+});
+
 let UTracontainer = document.getElementById("UniqueTraces");
 var UTranetwork = new vis.Network(UTracontainer);
 
-deleteTraces();
+UTranetwork.on("afterDrawing", function (ctx) {
+    var dataURL = ctx.canvas.toDataURL();
+    document.getElementById('UTraImg').href = dataURL;
+});
 
-let TTdata = vis.parseDOTNetwork("dinetwork {node[shape=circle] edge [length=100, color=white, fontcolor=black];B->A; C->A; C->B[arrowhead=box]; A->C[arrowhead=box]}")
-TTnetwork.setData(TTdata);
+deleteTraces();
 
 function getNetwork(){
     fetch("/getNet")
@@ -37,6 +54,10 @@ function getNetwork(){
             console.log(myJson);
 
             document.getElementById("netExp").value = myJson.exp;
+
+            let TTdot = myJson.nodes
+            let TTdata = vis.parseDOTNetwork(TTdot);
+            TTnetwork.setData(TTdata);
         } )
         .catch( err =>
         {
@@ -88,6 +109,43 @@ function deleteTraces() {
     Attnetwork.setData();
 
     UTranetwork.setData();
+}
+function sendExp(){
+    let data = "{ \"exp\":["
+    let raw = document.getElementById('netExp').value;
+    let processed = raw.replaceAll("\n", '", "')
+    processed = processed.substring(0, processed.length-3);
+    processed = '"' + processed;
+    data += processed;
+    data += "]}";
+
+    console.log(data)
+
+    fetch("/inputNodes", {
+            method: 'POST',
+            body: data,
+        })
+        .then( response =>
+        {
+            if ( response.status !== 200 )
+            {
+                console.log( 'Looks like there was a problem. Status Code: ' +
+                    response.status );
+                return;
+            }
+
+            console.log( response.headers.get( "Content-Type" ) );
+            return response.json();
+        }
+        )
+        .then( myJson =>
+        {
+            console.log(myJson);
+        } )
+        .catch( err =>
+        {
+            console.log( 'Fetch Error :-S', err );
+        } );
 }
 function sendState(){
     let data = "{ \"state\":"

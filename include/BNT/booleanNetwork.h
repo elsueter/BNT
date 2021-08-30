@@ -41,7 +41,6 @@ struct node {
 };
 
 typedef std::vector<node> netStruc;
-typedef std::vector<netStruc> netStrucArr;
 
 // Output Utilities--------------------------------------------------------------------------------------
 
@@ -115,9 +114,9 @@ bool vectorUniqueAdd(std::vector<std::vector<T> > &arr, std::vector<T> &in){
 	return true;
 }
 
-netStrucArr parseFile();
-netStrucArr parseFile(std::string path);
-netStruc parseExpression(std::vector<std::string> in);
+netStruc parseFile();
+netStruc parseFile(std::string path);
+netStruc parseExpressions(crow::json::rvalue in);
 
 // Network Classes--------------------------------------------------------------------------------------
 
@@ -130,6 +129,8 @@ private:
 	std::vector<sequence> uniqueTraces;
 
 	void iterateAll(state in);
+
+	void updateStructure(netStruc in);
 
 public:
 	nodeNetwork(netStruc in);

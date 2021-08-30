@@ -31,6 +31,10 @@ void nodeNetwork::iterateAll(state in){
     }
 }
 
+void nodeNetwork::updateStructure(netStruc in){
+    
+}
+
 void nodeNetwork::setState(state start){
     for(int i = 0; i < start.size(); i++){
         nodes[i].curr = start[i];
@@ -96,7 +100,7 @@ state nodeNetwork::getState(){
 }
 
 std::string nodeNetwork::getTraceS(){
-    std::string out = "dinetwork {node[shape=circle] \n  edge [length=100, color=white, fontcolor=black];";
+    std::string out = "dinetwork {node[shape=circle color=black style=filled fillcolor=white] \n  edge [length=100, color=black, fontcolor=black];";
     for(int i = 0; i < trace.size(); i++){
         out += '"';
         for(int j = 0; j < trace[i].size(); j++){
@@ -113,13 +117,13 @@ std::string nodeNetwork::getTraceS(){
         out += std::to_string(trace[0][i]);
     }
     out += '"';
-    out += "[\nfontcolor=white,\ncolor=red,\n]";
+    out += "[\nfontcolor=white\ncolor=grey\nfillcolor=red,\n]";
     out += "}";
     return out;
 }
 
 std::string nodeNetwork::getAttractorsS(){
-    std::string out = "dinetwork {node[shape=circle] \n  edge [length=100, color=white, fontcolor=black];";
+    std::string out = "dinetwork {node[shape=circle color=black style=filled fillcolor=white] \n  edge [length=100, color=black, fontcolor=black];";
     for(auto it: attractors){
         for(int i = 0; i < it.size(); i++){
             out += '"';
@@ -142,7 +146,7 @@ std::string nodeNetwork::getAttractorsS(){
 
 std::string nodeNetwork::getUniqueTracesS(){
     sequence used;
-    std::string out = "dinetwork {node[shape=circle] \n  edge [length=100, color=white, fontcolor=black];";
+    std::string out = "dinetwork {node[shape=circle color=black style=filled fillcolor=white] \n  edge [length=100, color=black, fontcolor=black];";
     for(auto it: uniqueTraces){
         for(int i = 0; i < it.size(); i++){
             if(vectorContains(used, it[i]) > -1){
@@ -171,13 +175,36 @@ std::string nodeNetwork::getUniqueTracesS(){
 }
 
 std::string nodeNetwork::getNodesS(){
-    std::string out = "dinetwork {node[shape=circle] \n  edge [length=100, color=white, fontcolor=black];";
-    for(auto it: nodes){
-        out += '"';
-        out += it.label;
-        out += '"';
+    std::string out = "dinetwork {node[shape=circle color=black style=filled fillcolor=white] \n  edge [length=100, color=black, fontcolor=black];";
+    for(auto &it: nodes){
+        std::vector<std::string> parts = {""};
+        int part = -1;
+        for(int i = 0; i < it.exp.size(); i++){
+            if(part > -1){
+                if(it.exp[i] == '|' || it.exp[i] == '&'){
+                    parts.push_back("");
+                    part++;
+                }else{
+                    if(it.exp[i] != ' '){
+                        parts[part] += it.exp[i];
+                    }
+                }
+            }else{
+                if(it.exp[i] == '='){
+                    part++;
+                }
+            }
+        }
+
+        for(auto temp: parts){
+            if(temp[0] == '!'){
+                temp = temp.substr(1, temp.size());
+                out += '"' + temp  + '"' + "->" + '"' + it.label + '"' + "[arrowhead=tee]" + ';';
+            }else{
+                out += '"' + temp  + '"' + "->" + '"' + it.label + '"' + ';';
+            }
+        }
     }
-    out += ';';
     out += "}";
     return out;
 }

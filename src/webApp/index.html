@@ -19,9 +19,10 @@
     <div class="graphs">
         <div class="wrapper">
             <h2>Truth Table</h2>
-            <button class="expIn">Input Expressions</button>
+            <button class="expIn" onclick="sendExp()">Input Expressions</button>
             <textarea class="netTT" id="netExp"></textarea>
             <div id="TruthTable" class="intTable"></div>
+            <a id="TTImg" download="InteractionGraph.jpg">Download Interaction Graph</a>
         </div>
         <div class="wrapper">
             <h2>Traces</h2>
@@ -29,14 +30,17 @@
                 <input type="text" class="stateIn" id="inputState" value=""/>
             </form>
             <div id="Traces" class="table"></div>
+            <a id="TraImg" download="Trace.jpg">Download Trace Graph</a>
         </div>
         <div class="wrapper">
             <h2>Attractors</h2>
             <div id="Attractors" class="table"></div>
+            <a id="AttImg" download="Attractors.jpg">Download Attractors Graph</a>
         </div>
         <div class="wrapper">
             <h2>State Graph</h2>
             <div id="UniqueTraces" class="table"></div>
+            <a id="UTraImg" download="StateGraph.jpg">Download State Graph</a>
         </div>
     </div>
     <script type="text/javascript" src="/index.js"></script>

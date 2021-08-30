@@ -1,6 +1,7 @@
 #include <crow/app.h>
 #include <crow/mustache.h>
 #include <BNT/booleanNetwork.h>
+#include <BNT/booleanAlgebra.h>
 
 #define CROW_MAIN
 
@@ -39,11 +40,8 @@ void printSequenceArr(std::vector<BooleanNetwork::sequence> in){
 
 int main(){
 
-    BooleanNetwork::netStrucArr savedFiles = BooleanNetwork::parseFile("networks/savedNetworks.json");
-    std::vector<BooleanNetwork::nodeNetwork> savedNetworks;
-    for(auto& it: savedFiles){
-        savedNetworks.push_back(BooleanNetwork::nodeNetwork(it));
-    }
+    BooleanNetwork::netStruc savedNetwork = BooleanNetwork::parseFile("networks/savedNetworks.json");
+    BooleanNetwork::nodeNetwork network(savedNetwork);
     
     //Crow app and routing lambda functions (Web Server)
     crow::SimpleApp app;
@@ -56,41 +54,58 @@ int main(){
         return page.render();
     });
     
+
+
+    /*
     //Other route lambda function (to be updated)
     CROW_ROUTE(app, "/getNet")
-    ([&savedNetworks]{
+    ([&network]{
         crow::json::wvalue x;
-        x["exp"] = savedNetworks[2].getNodesExpS();
+        x["exp"] = network.getNodesExpS();
+        x["nodes"] = network.getNodesS();
         return crow::response(x);
     });
     
     CROW_ROUTE(app, "/clearNet")
-    ([&savedNetworks]{
-        savedNetworks[2].clear();
+    ([&network]{
+        network.clear();
         return crow::response(200);
     });
 
     CROW_ROUTE(app, "/getSG")
-    ([&savedNetworks]{ 
+    ([&network]{ 
         crow::json::wvalue x;
-        savedNetworks[2].generateStateGraph();
-        x["traces"] = savedNetworks[2].getTraceS();
-        x["attractors"] = savedNetworks[2].getAttractorsS();
-        x["uniqueTraces"] = savedNetworks[2].getUniqueTracesS();
+        network.generateStateGraph();
+        x["traces"] = network.getTraceS();
+        x["attractors"] = network.getAttractorsS();
+        x["uniqueTraces"] = network.getUniqueTracesS();
         return crow::response(x);
+    });
+
+    CROW_ROUTE(app, "/inputNodes")
+    .methods("POST"_method)
+    ([&network](const crow::request& req){
+        auto x = crow::json::load(req.body);
+        if (!x)
+            return crow::response(400);
+        BooleanNetwork::parseExpressions(x);
+        //parse expressions and update truth tables
+        crow::json::wvalue y;
+        y["nodes"] = network.getNodesS();
+        return crow::response(y);
     });
 
     CROW_ROUTE(app, "/sendS")
     .methods("POST"_method)
-    ([&savedNetworks](const crow::request& req){
+    ([&network](const crow::request& req){
         auto x = crow::json::load(req.body);
         if (!x)
             return crow::response(400);
-        savedNetworks[2].synchronusIterate(x["state"]);
+        network.synchronusIterate(x["state"]);
         crow::json::wvalue y;
-        y["traces"] = savedNetworks[2].getTraceS();
-        y["attractors"] = savedNetworks[2].getAttractorsS();
-        y["uniqueTraces"] = savedNetworks[2].getUniqueTracesS();
+        y["traces"] = network.getTraceS();
+        y["attractors"] = network.getAttractorsS();
+        y["uniqueTraces"] = network.getUniqueTracesS();
         return crow::response(y);
     });
 
@@ -102,5 +117,6 @@ int main(){
     });
 
     app.port(18080).multithreaded().run();
+    */
     return 0;
 }
