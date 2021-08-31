@@ -62,7 +62,6 @@ int main(){
         std::cout<<it.label;
     }
 
-    /*
     //Other route lambda function (to be updated)
     CROW_ROUTE(app, "/getNet")
     ([&network]{
@@ -123,6 +122,5 @@ int main(){
     });
 
     app.port(18080).multithreaded().run();
-    */
     return 0;
 }
