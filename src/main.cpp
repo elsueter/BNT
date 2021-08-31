@@ -54,7 +54,13 @@ int main(){
         return page.render();
     });
     
+    BooleanAlgebra::boolTree tree;
 
+    tree.parseString("A = !B & C");
+
+    for(auto &it: tree.nodes){
+        std::cout<<it.label;
+    }
 
     /*
     //Other route lambda function (to be updated)

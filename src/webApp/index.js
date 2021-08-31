@@ -35,7 +35,7 @@ UTranetwork.on("afterDrawing", function (ctx) {
 deleteTraces();
 
 function getNetwork(){
-    fetch("/getNet")
+    fetch("/BNT/getNet")
         .then( response =>
         {
             if ( response.status !== 200 )
@@ -66,7 +66,7 @@ function getNetwork(){
 }
 
 function generateTraces() {
-    fetch("/getSG")
+    fetch("/BNT/getSG")
         .then( response =>
         {
             if ( response.status !== 200 )
@@ -102,7 +102,7 @@ function generateTraces() {
         } );
 }
 function deleteTraces() {
-    fetch("/clearNet")
+    fetch("/BNT/clearNet")
 
     Tranetwork.setData();
 
@@ -121,7 +121,7 @@ function sendExp(){
 
     console.log(data)
 
-    fetch("/inputNodes", {
+    fetch("/BNT/inputNodes", {
             method: 'POST',
             body: data,
         })
@@ -154,7 +154,7 @@ function sendState(){
 
     console.log(data);
 
-    fetch("/sendS", {
+    fetch("/BNT/sendS", {
             method: 'POST',
             body: data,
         })
