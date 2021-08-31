@@ -23,3 +23,7 @@ bool orLeaf::evaluate(){
     }
     return false;
 }
+
+void boolTree::parseString(std::string in){
+    
+}
