@@ -154,7 +154,7 @@ function sendState(){
 
     console.log(data);
 
-    fetch("/sendS", {
+    fetch("/BNT/sendS", {
             method: 'POST',
             body: data,
         })
