@@ -42,6 +42,9 @@ int main(){
 
     BooleanNetwork::netStruc savedNetwork = BooleanNetwork::parseFile("networks/savedNetworks.json");
     BooleanNetwork::nodeNetwork network(savedNetwork);
+
+    //BooleanAlgebra::boolTree tree("A = !B & C & D | E & F");
+
     
     //Crow app and routing lambda functions (Web Server)
     crow::SimpleApp app;
@@ -53,14 +56,6 @@ int main(){
         auto page = crow::mustache::load("webApp/index.html");
         return page.render();
     });
-    
-    BooleanAlgebra::boolTree tree;
-
-    tree.parseString("A = !B & C");
-
-    for(auto &it: tree.nodes){
-        std::cout<<it.label;
-    }
 
     //Other route lambda function (to be updated)
     CROW_ROUTE(app, "/getNet")

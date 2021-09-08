@@ -83,8 +83,6 @@ bool vecArrContains(std::vector<std::vector<T> > arr, std::vector<T> in){
 	return false;
 }
 
-#include <iostream>
-
 template<typename T>
 bool vectorUniqueAdd(std::vector<std::vector<T> > &arr, std::vector<T> &in){
 	for(int i = 0; i < arr.size(); i++){
@@ -140,6 +138,8 @@ public:
 	void synchronusIterate();
 	void synchronusIterate(state start);
 	void synchronusIterate(crow::json::rvalue start);
+
+	void testIterate(state start);
 
 	void generateStateGraph();
 	void generateStateGraphThreaded();

@@ -2,6 +2,7 @@
 #define _booleanAlgebra_H_
 #pragma once
 
+#include <BNT/booleanNetwork.h>
 #include <string>
 #include <vector>
 
@@ -9,35 +10,32 @@ namespace BooleanAlgebra{
 
     //Boolean Tree ------------------------------------------------------------------------------------
 
-    struct leaf{
-        bool value;
-        std::string label;
+    class leaf{
+        private:
+            bool value;
+            int type;
+            std::vector<leaf> children;
+            std::string label;
 
-        bool evaluate();
+        public:
+            leaf();
+            leaf(std::string in);
+            leaf(std::vector<std::string> in);
+
+            bool evaluate();
+
+            std::string print(int depth);
     };
 
-    struct notLeaf: leaf{
-        bool evaluate();
-    };
+    class boolTree{
+        private:
+            leaf tree;
+            BooleanNetwork::node node;
 
-    struct andLeaf:leaf{
-        leaf children[2];
+        public:
+            boolTree(std::string in);
 
-        bool evaluate();
-    };
-
-    struct orLeaf:leaf{
-        leaf children[2];
-
-        bool evaluate();
-    };
-
-    struct boolTree{
-        std::vector<leaf> nodes;
-        bool result;
-
-        void parseString(std::string in);
-        bool solve(std::vector<bool> in);
+            bool solve(std::vector<bool> in);
     };
 }
 
