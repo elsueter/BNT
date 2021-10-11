@@ -31,6 +31,11 @@ void nodeNetwork::iterateAll(state in){
     }
 }
 
+void nodeNetwork::iterateNode(state in, int index){
+    nodes[index].getNext(in);
+    nodes[index].update();
+}
+
 void nodeNetwork::updateStructure(netStruc in){
     
 }
@@ -70,18 +75,45 @@ void nodeNetwork::synchronusIterate(state start){
     synchronusIterate();
 }
 
-void nodeNetwork::synchronusIterate(crow::json::rvalue startJSON){
-    state start;
-    start.reserve(startJSON.size());
-    for(auto& it: startJSON){
-        start.push_back(it.i());
+void nodeNetwork::asynchIterate(){
+    trace.clear();
+    trace.push_back(getState());
+    bool attractorHit = false;
+    while(!attractorHit){
+        //need to iterate over multiple values here
+        iterateNode(getState(), 0);
+
+        int index = vectorContains(trace, getState());
+        if(index > -1){
+            attractorHit = true;
+            sequence temp;
+            temp.reserve(trace.size()-index);
+            for(int i = index; i < trace.size(); i++){
+                temp.push_back(trace[i]);
+            }
+            if(!vecArrContains(attractors, temp)){
+                attractors.push_back(temp);
+            }
+        }
+        trace.push_back(getState());
     }
-    synchronusIterate(start);
+    vectorUniqueAdd(uniqueTraces, trace);
+}
+
+void nodeNetwork::asynchIterate(state start){
+    setState(start);
+    asynchIterate();
 }
 
 void nodeNetwork::generateStateGraph(){
     for(int i = 0; i < 1 << nodes.size(); i++){
         synchronusIterate(toBin(i, nodes.size()));
+    }
+}
+
+void nodeNetwork::generateAsynchStateGraph(){
+    for(int i = 0; i < 1 << nodes.size(); i++){
+        asynchIterate(toBin(i, nodes.size()));
     }
 }
 

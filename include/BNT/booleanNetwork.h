@@ -4,7 +4,6 @@
 
 // std includes ----------------------------------------------------------------------------
 
-#include <crow/json.h>
 #include <vector>
 #include <thread>
 #include <string>
@@ -114,7 +113,6 @@ bool vectorUniqueAdd(std::vector<std::vector<T> > &arr, std::vector<T> &in){
 
 netStruc parseFile();
 netStruc parseFile(std::string path);
-netStruc parseExpressions(crow::json::rvalue in);
 
 // Network Classes--------------------------------------------------------------------------------------
 
@@ -127,6 +125,7 @@ private:
 	std::vector<sequence> uniqueTraces;
 
 	void iterateAll(state in);
+	void iterateNode(state in, int index);
 
 	void updateStructure(netStruc in);
 
@@ -137,12 +136,14 @@ public:
 
 	void synchronusIterate();
 	void synchronusIterate(state start);
-	void synchronusIterate(crow::json::rvalue start);
+
+	void asynchIterate();
+	void asynchIterate(state start);
 
 	void testIterate(state start);
 
 	void generateStateGraph();
-	void generateStateGraphThreaded();
+	void generateAsynchStateGraph();
 
 	void clear();
 

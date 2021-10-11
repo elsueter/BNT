@@ -1,9 +1,4 @@
-#include <crow/app.h>
-#include <crow/mustache.h>
 #include <BNT/booleanNetwork.h>
-#include <BNT/booleanAlgebra.h>
-
-#define CROW_MAIN
 
 // Printing (Temp) -----------------------------------------------
 
@@ -38,84 +33,89 @@ void printSequenceArr(std::vector<BooleanNetwork::sequence> in){
 
 //Main -----------------------------------------------
 
+BooleanNetwork::node A = {
+    {
+        {{{1, 0}, {2, 0}, {3, 0}}, 0},
+        {{{1, 0}, {2, 0}, {3, 1}}, 1},
+        {{{1, 0}, {2, 1}, {3, 0}}, 0},
+        {{{1, 0}, {2, 1}, {3, 1}}, 1},
+        {{{1, 1}, {2, 0}, {3, 0}}, 0},
+        {{{1, 1}, {2, 0}, {3, 1}}, 1},
+        {{{1, 1}, {2, 1}, {3, 0}}, 1},
+        {{{1, 1}, {2, 1}, {3, 1}}, 1}
+    }, 
+    "A = B & C | D",
+    "A",
+    0, 
+    0
+};
+
+BooleanNetwork::node B = {
+    {
+        {{{2, 0}, {3, 0}}, 1},
+        {{{2, 0}, {3, 1}}, 1},
+        {{{2, 1}, {3, 0}}, 0},
+        {{{2, 1}, {3, 1}}, 1}
+    }, 
+    "B = !C | D",
+    "B",
+    0, 
+    0
+};
+
+BooleanNetwork::node C = {
+    {
+        {{{0, 0}}, 1},
+        {{{0, 1}}, 0},
+    }, 
+    "C = !A",
+    "C",
+    0, 
+    0
+};
+
+BooleanNetwork::node D = {
+    {
+        {{{0, 0}}, 0},
+        {{{0, 1}}, 1},
+    }, 
+    "D = A",
+    "D",
+    0, 
+    0
+};
+
+BooleanNetwork::node E = {
+    {
+        {{{1, 0}, {2, 0}}, 0},
+        {{{1, 0}, {2, 1}}, 0},
+        {{{1, 1}, {2, 0}}, 0},
+        {{{1, 1}, {2, 1}}, 1}
+    }, 
+    "E = B & C",
+    "E",
+    0, 
+    0
+};
+
+BooleanNetwork::netStruc network1 = {A, B, C, D, E};
+
 int main(){
-
-    BooleanNetwork::netStruc savedNetwork = BooleanNetwork::parseFile("networks/savedNetworks.json");
-    BooleanNetwork::nodeNetwork network(savedNetwork);
-
-    //BooleanAlgebra::boolTree tree("A = !B & C & D | E & F");
-
-    
-    //Crow app and routing lambda functions (Web Server)
-    crow::SimpleApp app;
-
-    //Base request and main page fetch
-    crow::mustache::set_base(".");
-    CROW_ROUTE(app,"/")
-    ([]{
-        auto page = crow::mustache::load("webApp/index.html");
-        return page.render();
-    });
-
-    //Other route lambda function (to be updated)
-    CROW_ROUTE(app, "/getNet")
-    ([&network]{
-        crow::json::wvalue x;
-        x["exp"] = network.getNodesExpS();
-        x["nodes"] = network.getNodesS();
-        return crow::response(x);
-    });
-    
-    CROW_ROUTE(app, "/clearNet")
-    ([&network]{
-        network.clear();
-        return crow::response(200);
-    });
-
-    CROW_ROUTE(app, "/getSG")
-    ([&network]{ 
-        crow::json::wvalue x;
-        network.generateStateGraph();
-        x["traces"] = network.getTraceS();
-        x["attractors"] = network.getAttractorsS();
-        x["uniqueTraces"] = network.getUniqueTracesS();
-        return crow::response(x);
-    });
-
-    CROW_ROUTE(app, "/inputNodes")
-    .methods("POST"_method)
-    ([&network](const crow::request& req){
-        auto x = crow::json::load(req.body);
-        if (!x)
-            return crow::response(400);
-        BooleanNetwork::parseExpressions(x);
-        //parse expressions and update truth tables
-        crow::json::wvalue y;
-        y["nodes"] = network.getNodesS();
-        return crow::response(y);
-    });
-
-    CROW_ROUTE(app, "/sendS")
-    .methods("POST"_method)
-    ([&network](const crow::request& req){
-        auto x = crow::json::load(req.body);
-        if (!x)
-            return crow::response(400);
-        network.synchronusIterate(x["state"]);
-        crow::json::wvalue y;
-        y["traces"] = network.getTraceS();
-        y["attractors"] = network.getAttractorsS();
-        y["uniqueTraces"] = network.getUniqueTracesS();
-        return crow::response(y);
-    });
-
-    //Catchall route for resources
-    CROW_ROUTE(app,"/<path>")
-    ([](const crow::request& req, crow::response& res, std::string in){
-        res.set_static_file_info("webApp/" + in);
-        res.end();
-    });
-
-    app.port(18080).multithreaded().run();
+    BooleanNetwork::nodeNetwork net(network1);
+    net.clear();
+    net.generateStateGraph();
+    std::cout<<net.getTraceS()<<"\n"<<std::endl;
+    std::cout<<net.getAttractorsS()<<"\n"<<std::endl;
+    std::cout<<net.getUniqueTracesS()<<"\n"<<std::endl;
+    std::cout<<net.getNodesS()<<"\n"<<std::endl;
+    std::cout<<net.getNodesExpS()<<std::endl;
+    net.clear();
+    net.setState({0, 0, 0, 0, 0});
+    net.generateAsynchStateGraph();
+    std::cout<<net.getTraceS()<<"\n"<<std::endl;
+    std::cout<<net.getAttractorsS()<<"\n"<<std::endl;
+    std::cout<<net.getUniqueTracesS()<<"\n"<<std::endl;
+    std::cout<<net.getNodesS()<<"\n"<<std::endl;
+    std::cout<<net.getNodesExpS()<<std::endl;
     return 0;
 }
