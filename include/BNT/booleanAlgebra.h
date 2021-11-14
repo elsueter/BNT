@@ -10,32 +10,20 @@ namespace BooleanAlgebra{
 
     //Boolean Tree ------------------------------------------------------------------------------------
 
-    class leaf{
-        private:
-            bool value;
-            int type;
-            std::vector<leaf> children;
-            std::string label;
-
-        public:
-            leaf();
-            leaf(std::string in);
-            leaf(std::vector<std::string> in);
-
-            bool evaluate();
-
-            std::string print(int depth);
+    struct node{
+        std::string val;
+        node* right;
+        node* left;
+        int op;
     };
 
-    class boolTree{
+    class tree{
         private:
-            leaf tree;
-            BooleanNetwork::node node;
-
+            node root;
         public:
-            boolTree(std::string in);
+            tree(crow::json::rvalue in);
 
-            bool solve(std::vector<bool> in);
+            BooleanNetwork::netStruc getNetStruc();
     };
 }
 

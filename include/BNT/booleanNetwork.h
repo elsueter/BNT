@@ -114,7 +114,6 @@ bool vectorUniqueAdd(std::vector<std::vector<T> > &arr, std::vector<T> &in){
 
 netStruc parseFile();
 netStruc parseFile(std::string path);
-netStruc parseExpressions(crow::json::rvalue in);
 
 // Network Classes--------------------------------------------------------------------------------------
 

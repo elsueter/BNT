@@ -43,12 +43,3 @@ netStruc BooleanNetwork::parseFile(std::string path){
     }
     return out;
 }
-
-netStruc BooleanNetwork::parseExpressions(crow::json::rvalue in){
-    netStruc out;
-
-    for(auto &it: in["exp"]){
-    }
-
-    return out;
-}

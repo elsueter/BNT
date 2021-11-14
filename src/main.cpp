@@ -5,46 +5,12 @@
 
 #define CROW_MAIN
 
-// Printing (Temp) -----------------------------------------------
-
-#include <iostream>
-
-void printState(BooleanNetwork::state in){
-    std::cout<<"{";
-    for(int i = 0; i < in.size(); i++){
-        std::cout<<in[i];
-        if(i != in.size()-1){
-            std::cout<<", ";
-        }
-    }
-    std::cout<<"}";
-}
-
-void printSequence(BooleanNetwork::sequence in){
-    for(int i = 0; i < in.size(); i++){
-        printState(in[i]);
-        if(i != in.size()-1){
-            std::cout<<", ";
-        }
-    }
-    std::cout<<std::endl;
-}
-
-void printSequenceArr(std::vector<BooleanNetwork::sequence> in){
-    for(int i = 0; i < in.size(); i++){
-        printSequence(in[i]);
-    }
-}
-
 //Main -----------------------------------------------
 
 int main(){
 
     BooleanNetwork::netStruc savedNetwork = BooleanNetwork::parseFile("networks/savedNetworks.json");
     BooleanNetwork::nodeNetwork network(savedNetwork);
-
-    //BooleanAlgebra::boolTree tree("A = !B & C & D | E & F");
-
     
     //Crow app and routing lambda functions (Web Server)
     crow::SimpleApp app;
@@ -88,8 +54,11 @@ int main(){
         auto x = crow::json::load(req.body);
         if (!x)
             return crow::response(400);
-        BooleanNetwork::parseExpressions(x);
-        //parse expressions and update truth tables
+        
+        BooleanAlgebra::tree newTree(x);
+
+        //network = BooleanNetwork::nodeNetwork(newTree.getNetStruc());
+                
         crow::json::wvalue y;
         y["nodes"] = network.getNodesS();
         return crow::response(y);

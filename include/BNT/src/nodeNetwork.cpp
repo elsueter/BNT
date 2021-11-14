@@ -31,10 +31,6 @@ void nodeNetwork::iterateAll(state in){
     }
 }
 
-void nodeNetwork::updateStructure(netStruc in){
-    
-}
-
 void nodeNetwork::setState(state start){
     for(int i = 0; i < start.size(); i++){
         nodes[i].curr = start[i];
